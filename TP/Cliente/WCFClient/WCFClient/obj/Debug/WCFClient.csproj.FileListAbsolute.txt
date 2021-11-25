@@ -1,0 +1,10 @@
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\bin\Debug\WCFClient.exe.config
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\bin\Debug\WCFClient.exe
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\bin\Debug\WCFClient.pdb
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\obj\Debug\WCFClient.csproj.AssemblyReference.cache
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\obj\Debug\WCFClient.Form1.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\obj\Debug\WCFClient.Properties.Resources.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\obj\Debug\WCFClient.csproj.GenerateResource.cache
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\obj\Debug\WCFClient.csproj.CoreCompileInputs.cache
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\obj\Debug\WCFClient.exe
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClient\WCFClient\obj\Debug\WCFClient.pdb

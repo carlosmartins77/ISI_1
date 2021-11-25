@@ -1,0 +1,18 @@
+{
+  "Visita": [
+    {
+      "CodVisita": 3,
+      "DataVisita": "2021-09-11T14:32",
+      "CodPessoa": 5,
+      "Infetado": 1,
+      "CodEquipa": 2
+    },
+    {
+      "CodVisita": 4,
+      "DataVisita": "2021-07-21T15:37",
+      "CodPessoa": 6,
+      "Infetado": 0,
+      "CodEquipa": 2
+    }
+  ]
+}
