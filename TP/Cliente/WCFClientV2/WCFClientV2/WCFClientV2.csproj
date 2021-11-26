@@ -53,6 +53,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="CriarProduto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CriarProduto.Designer.cs">
+      <DependentUpon>CriarProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EncomendasANDProdutos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EncomendasANDProdutos.Designer.cs">
+      <DependentUpon>EncomendasANDProdutos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +91,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CriarProduto.resx">
+      <DependentUpon>CriarProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EncomendasANDProdutos.resx">
+      <DependentUpon>EncomendasANDProdutos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,6 +119,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="Connected Services\ServiceReference1\DB.wsdl" />
+    <None Include="Connected Services\ServiceReference1\WCFClientV2.ServiceReference1.Produto.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

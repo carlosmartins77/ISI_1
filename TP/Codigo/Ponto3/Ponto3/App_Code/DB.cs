@@ -1,17 +1,174 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text.Json;
 using System.Web.Services;
 using System.Xml;
 
 
 /// <summary>
-/// Summary description for Pessoas
+/// Trabalho Prático 1 - ISI 21/22
+/// Autores:
+/// 15... - Pedro Macedo
+/// 18836 - Carlos Martins
+/// Enunciado: https://elearning1.ipca.pt/2122/pluginfile.php/406401/mod_resource/content/1/20212022_LESI_ISI_TG1_Enunciado.pdf
+/// Sistema gestão das operações das equipas que vão visitar os lares. (Gestão de infetados, isolados, recursos (para as equipas))
 /// </summary>
-public class DB : IDB
+public class DB : IDBSoap, IDBRest
 {
+    #region Ponto1
+    public int AddRest(string x, string y)
+    {
+        return (int.Parse(x) + int.Parse(y));
+    }
+
+    /// <summary>
+    /// Função auxiliar responsavel por verificar se um certo produto já existe na BD
+    /// </summary>
+    /// <param name="nome"> Nome do produtoXML </param>
+    /// <returns>True se existir, false se não</returns>
+    public bool FindProduct(string nome)
+    {
+        // Connection String
+        string cs = ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString;
+
+        // Open Connection
+        SqlConnection con = new SqlConnection(cs);
+        con.Open();
+
+        // Comando com a query
+        SqlCommand checkProduct = new SqlCommand("SELECT * FROM Produto WHERE Nome = @nome", con);
+
+        // Parameterização do campo nif
+        checkProduct.Parameters.Add("@nome", SqlDbType.NVarChar).Value = nome;
+
+        // Agora lêmos a tabela e verificamos se ela possui linhas(se tiver o nome existe)
+        SqlDataReader reader = checkProduct.ExecuteReader();
+
+        if (reader.HasRows)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    /// <summary>
+    /// Função responsavel por criar um produto.
+    /// Insere nas tabela VIsita e faz o UPDATE na tabela Pessoas de acordo o seu conteudo.
+    /// </summary>
+    /// <param name="p"> Objeto Produto, utilizado para fazer o pedido REST. Tive que criar uma classe obrigatoriamente porque não posso passar mais de 1 parametro </param>
+    /// <returns>true se for inserido, false se não</returns>
+    public bool CreateProduct(Produto p)
+    {
+        DataSet ds = new DataSet();
+
+        // Ligação à BD
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+
+        // Query
+        string query = "INSERT INTO Produto (Nome, Preco) VALUES(@Nome, @Preco)";
+
+        // Executar
+        SqlDataAdapter da = new SqlDataAdapter(query, con);
+
+        // Parameterização 
+        da.SelectCommand.Parameters.Add("@Nome", SqlDbType.NVarChar).Value = p.Nome;
+        da.SelectCommand.Parameters.Add("@Preco", SqlDbType.Float).Value = p.Preco;
+
+        if (FindProduct(p.Nome) == true)
+        {
+            return false; //Não fazer nada
+        }
+        else
+        {
+            da.Fill(ds, "Produto"); //Adicionar à tabela
+            return true;
+        }
+    }
+
+    public List<Produto> ListProducts()
+    {
+        // Cria uma lista para armazenar os Hoteis
+        ArrayList produtos = new ArrayList();
+
+        // Conexao
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+        try
+        {
+            con.Open();
+            // Comando com a query
+            SqlCommand getProducts = new SqlCommand("SELECT Nome, Preco FROM Produto", con);
+
+            // Agora lêmos a tabela e verificamos se ela possui linhas(se tiver o nome existe)
+            SqlDataReader reader = getProducts.ExecuteReader();
+
+            try
+            {
+                // Percorre o DataReader
+                while (reader.Read())
+                {
+                    //Cria um objeto Produto
+                    Produto p = new Produto();
+
+                    // Instancia os parametros
+                    p.Nome = (string)reader["Nome"];
+                    p.Preco = (double)reader["Preco"];
+                    
+                    // Insere no arrayList
+                    produtos.Add(p);
+                }
+            }
+            finally
+            {
+                // Fecha o DataReader
+                reader.Close();
+            }
+        }
+        finally
+        {
+            // Fecha a conexão
+            con.Close();
+        }
+
+        // Converter numa lista genérica com LINQ
+        List<Produto> list = produtos.Cast<Produto>().ToList();
+        return list;
+
+    }
+
+
+    public DataSet ListProducts2()
+    {
+        DataSet ds = new DataSet();
+
+        // Ligação à BD
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+
+        // Query
+        string query = "SELECT Nome,Preco FROM Produto";
+
+        // Executar
+        SqlDataAdapter da = new SqlDataAdapter(query, con);
+
+        //Encher a tabela com os dados obtidos
+        da.Fill(ds, "Produto");
+
+        return (ds);
+
+    }
+
+    #endregion
+
+    //Criar encomenda
+
     #region Ponto3
 
     /// <summary>
@@ -20,48 +177,39 @@ public class DB : IDB
     /// </summary>
     /// <param name="nif"></param>
     /// <returns>true se o nif existir, false se não existir na BD</returns> 
-    [WebMethod(Description = "Verifica NIF")]
     public bool FindNif(string nif)
     {
-        DataSet ds = new DataSet();
-        // 1º Connection String no Web Config
+        // Connection String
         string cs = ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString;
 
-        // 2º Open Connection
+        // Open Connection
         SqlConnection con = new SqlConnection(cs);
+        con.Open();
+        
+        // Comando com a query
+        SqlCommand search_user = new SqlCommand("SELECT * FROM Pessoa WHERE Nif = @nif", con); 
 
-        // 3º Query
-        string query = "SELECT * FROM Pessoa WHERE Nif = @nif";
+        // Parameterização do campo nif
+        search_user.Parameters.Add("@nif", SqlDbType.NVarChar).Value = nif;
 
-        SqlDataAdapter da = new SqlDataAdapter(query, con);
-        da.SelectCommand.Parameters.Add("@nif", SqlDbType.NVarChar).Value = nif;
-        da.Fill(ds, "Pessoa");
+        // Agora lêmos a tabela e verificamos se ela possui linhas(se tiver o nome existe)
+        SqlDataReader reader = search_user.ExecuteReader();
 
-        try
+        if (reader.HasRows)
         {
-            //Guardar o resultado numa tabela 
-            DataRow dr = ds.Tables[0].Rows[0];
-
-            // Se o nif na tabela for equivalente ao nif recebido por parametro - true
-            if (dr["nif"].Equals(nif))
-            {
-                return true;
-            }
+            return true;
         }
-        catch (IndexOutOfRangeException)
+        else
         {
             return false;
         }
 
-        return true;
-        
     }
 
     /// <summary>
-    /// Devolve toda a informação sobre todos as Pessoa
+    /// Função utilizada para retornar toda a informação da tabela Pessoa presente na Base de dados
     /// </summary>
     /// <returns></returns>
-    [WebMethod(Description = "Selecciona todos os Pessoas")]
     public DataSet GetAllPessoas()
     {
         DataSet ds = new DataSet();
@@ -89,7 +237,6 @@ public class DB : IDB
     /// </summary>
     /// <param name="nif"></param>
     /// <returns></returns> 
-    [WebMethod(Description = "Registar Caso detetado")]
     public void RegistInfected(string nif)
     {
         // Ligação
@@ -111,6 +258,7 @@ public class DB : IDB
         }
 
     }
+
     /// <summary>
     /// É utilizada para complementar a função RegistInfected. É chamada apos um caso de infetado ser registado. Basicamente quando
     /// é registado um caso, no Cliente aparece uma textbox a perguntar com qunatas pessoas teve contacto e esta funcao
@@ -118,8 +266,6 @@ public class DB : IDB
     /// </summary>
     /// <param name="nif"></param>
     /// <returns></returns> 
-
-    [WebMethod(Description = "Isolar Pessoas")]
     public void RegistIsolated(string nif)
     {
         // Ligação
@@ -155,7 +301,7 @@ public class DB : IDB
     public void RelatorioPSP(string file)
     {
         //Variaveis para o conteudo da BD
-        int idVisita;
+        //int idVisita;
         DateTime dataVisita;
         int idPessoa;
         int infetado;
@@ -169,11 +315,11 @@ public class DB : IDB
         foreach (XmlNode xmlNode in xmlFile.DocumentElement.ChildNodes) 
         {
             //Atribuir a cada variavel o respetivo filho
-            idVisita = Convert.ToInt32(xmlNode.ChildNodes[0].InnerText);
-            dataVisita = Convert.ToDateTime(xmlNode.ChildNodes[1].InnerText);
-            idPessoa = Convert.ToInt32(xmlNode.ChildNodes[2].InnerText);
-            infetado = Convert.ToSByte(xmlNode.ChildNodes[3].InnerText);
-            idEquipa = Convert.ToInt32(xmlNode.ChildNodes[4].InnerText);
+            //idVisita = Convert.ToInt32(xmlNode.ChildNodes[0].InnerText);
+            dataVisita = Convert.ToDateTime(xmlNode.ChildNodes[0].InnerText);
+            idPessoa = Convert.ToInt32(xmlNode.ChildNodes[1].InnerText);
+            infetado = Convert.ToSByte(xmlNode.ChildNodes[2].InnerText);
+            idEquipa = Convert.ToInt32(xmlNode.ChildNodes[3].InnerText);
 
             DataSet ds = new DataSet();
 
@@ -181,13 +327,13 @@ public class DB : IDB
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
 
             // Query
-            string query = "INSERT INTO Visita (ID_Visita, Data, ID_PessoaFK, Infetado, ID_EquipaFK) VALUES(@idVisita, @dataVisita, @idPessoa, @infetado, @idEquipa)";
+            string query = "INSERT INTO Visita (Data, ID_PessoaFK, Infetado, ID_EquipaFK) VALUES(@dataVisita, @idPessoa, @infetado, @idEquipa)";
 
             // Executar
             SqlDataAdapter da = new SqlDataAdapter(query, con);
 
             // Parameterização 
-            da.SelectCommand.Parameters.Add("@idVisita", SqlDbType.Int).Value = idVisita;
+            //da.SelectCommand.Parameters.Add("@idVisita", SqlDbType.Int).Value = idVisita;
             da.SelectCommand.Parameters.Add("@dataVisita", SqlDbType.Date).Value = dataVisita;
             da.SelectCommand.Parameters.Add("@idPessoa", SqlDbType.Int).Value = idPessoa;
             da.SelectCommand.Parameters.Add("@infetado", SqlDbType.Bit).Value = infetado;
@@ -242,7 +388,7 @@ public class DB : IDB
     public void RelatorioGNR(string file)
     {
         //Variaveis para o conteudo da BD
-        int idVisita;
+        //int idVisita;
         DateTime dataVisita;
         int idPessoa;
         int infetado;
@@ -258,8 +404,8 @@ public class DB : IDB
 
         foreach(JsonElement temp in tempJsonElement.EnumerateArray())
         {
-            JsonElement jsonVisita = temp.GetProperty("CodVisita"); // ConverToInt32 Para nao estourar com nulls
-            idVisita = jsonVisita.GetInt32(); 
+            //JsonElement jsonVisita = temp.GetProperty("CodVisita"); // ConverToInt32 Para nao estourar com nulls
+            //idVisita = jsonVisita.GetInt32(); 
 
             JsonElement jsonData = temp.GetProperty("DataVisita");
             dataVisita = jsonData.GetDateTime();
@@ -279,13 +425,13 @@ public class DB : IDB
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
 
             // Query
-            string query = "INSERT INTO Visita (ID_Visita, ID_PessoaFK, Data, Infetado, ID_EquipaFK) VALUES(@idVisita, @idPessoa, @dataVisita, @infetado, @idEquipa)";
+            string query = "INSERT INTO Visita (ID_PessoaFK, Data, Infetado, ID_EquipaFK) VALUES(@idPessoa, @dataVisita, @infetado, @idEquipa)";
 
             // Executar
             SqlDataAdapter da = new SqlDataAdapter(query, con);
 
             // Parameterização 
-            da.SelectCommand.Parameters.Add("@idVisita", SqlDbType.Int).Value = idVisita;
+            //da.SelectCommand.Parameters.Add("@idVisita", SqlDbType.Int).Value = idVisita;
             da.SelectCommand.Parameters.Add("@dataVisita", SqlDbType.Date).Value = dataVisita;
             da.SelectCommand.Parameters.Add("@idPessoa", SqlDbType.Int).Value = idPessoa;
             da.SelectCommand.Parameters.Add("@infetado", SqlDbType.Bit).Value = infetado;
@@ -330,8 +476,9 @@ public class DB : IDB
             da.Fill(ds, "Visita");
         }
 
-        #endregion
-
+        
+    
     }
+    #endregion
 
 }

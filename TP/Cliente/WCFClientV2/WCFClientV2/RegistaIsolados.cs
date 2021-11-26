@@ -13,7 +13,7 @@ namespace WCFClientV2
 {
     public partial class RegistaIsolados : Form
     {
-        DBClient client = new DBClient(); //Establecer ligaçao com o servidor
+        DBSoapClient client = new DBSoapClient(); //Establecer ligaçao com o servidor
         public RegistaIsolados()
         {
             InitializeComponent();

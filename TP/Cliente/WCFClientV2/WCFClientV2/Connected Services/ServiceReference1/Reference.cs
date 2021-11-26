@@ -9,73 +9,225 @@
 //------------------------------------------------------------------------------
 
 namespace WCFClientV2.ServiceReference1 {
+    using System.Runtime.Serialization;
+    using System;
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IDB")]
-    public interface IDB {
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Produto", Namespace="http://schemas.datacontract.org/2004/07/")]
+    [System.SerializableAttribute()]
+    public partial class Produto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/FindNif", ReplyAction="http://tempuri.org/IDB/FindNifResponse")]
-        bool FindNif(string nif);
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/FindNif", ReplyAction="http://tempuri.org/IDB/FindNifResponse")]
-        System.Threading.Tasks.Task<bool> FindNifAsync(string nif);
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NomeField;
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/GetAllPessoas", ReplyAction="http://tempuri.org/IDB/GetAllPessoasResponse")]
-        System.Data.DataSet GetAllPessoas();
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double PrecoField;
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/GetAllPessoas", ReplyAction="http://tempuri.org/IDB/GetAllPessoasResponse")]
-        System.Threading.Tasks.Task<System.Data.DataSet> GetAllPessoasAsync();
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/RegistInfected", ReplyAction="http://tempuri.org/IDB/RegistInfectedResponse")]
-        void RegistInfected(string nif);
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Nome {
+            get {
+                return this.NomeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NomeField, value) != true)) {
+                    this.NomeField = value;
+                    this.RaisePropertyChanged("Nome");
+                }
+            }
+        }
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/RegistInfected", ReplyAction="http://tempuri.org/IDB/RegistInfectedResponse")]
-        System.Threading.Tasks.Task RegistInfectedAsync(string nif);
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Preco {
+            get {
+                return this.PrecoField;
+            }
+            set {
+                if ((this.PrecoField.Equals(value) != true)) {
+                    this.PrecoField = value;
+                    this.RaisePropertyChanged("Preco");
+                }
+            }
+        }
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/RegistIsolated", ReplyAction="http://tempuri.org/IDB/RegistIsolatedResponse")]
-        void RegistIsolated(string contacto);
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/RegistIsolated", ReplyAction="http://tempuri.org/IDB/RegistIsolatedResponse")]
-        System.Threading.Tasks.Task RegistIsolatedAsync(string contacto);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/RelatorioPSP", ReplyAction="http://tempuri.org/IDB/RelatorioPSPResponse")]
-        void RelatorioPSP(string file);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/RelatorioPSP", ReplyAction="http://tempuri.org/IDB/RelatorioPSPResponse")]
-        System.Threading.Tasks.Task RelatorioPSPAsync(string file);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/RelatorioGNR", ReplyAction="http://tempuri.org/IDB/RelatorioGNRResponse")]
-        void RelatorioGNR(string file);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDB/RelatorioGNR", ReplyAction="http://tempuri.org/IDB/RelatorioGNRResponse")]
-        System.Threading.Tasks.Task RelatorioGNRAsync(string file);
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IDBChannel : WCFClientV2.ServiceReference1.IDB, System.ServiceModel.IClientChannel {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IDBRest")]
+    public interface IDBRest {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/AddRest", ReplyAction="http://tempuri.org/IDBRest/AddRestResponse")]
+        int AddRest(string x, string y);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/AddRest", ReplyAction="http://tempuri.org/IDBRest/AddRestResponse")]
+        System.Threading.Tasks.Task<int> AddRestAsync(string x, string y);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/FindProduct", ReplyAction="http://tempuri.org/IDBRest/FindProductResponse")]
+        bool FindProduct(string nome);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/FindProduct", ReplyAction="http://tempuri.org/IDBRest/FindProductResponse")]
+        System.Threading.Tasks.Task<bool> FindProductAsync(string nome);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/CreateProduct", ReplyAction="http://tempuri.org/IDBRest/CreateProductResponse")]
+        bool CreateProduct(WCFClientV2.ServiceReference1.Produto p);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/CreateProduct", ReplyAction="http://tempuri.org/IDBRest/CreateProductResponse")]
+        System.Threading.Tasks.Task<bool> CreateProductAsync(WCFClientV2.ServiceReference1.Produto p);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/ListProducts", ReplyAction="http://tempuri.org/IDBRest/ListProductsResponse")]
+        WCFClientV2.ServiceReference1.Produto[] ListProducts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/ListProducts", ReplyAction="http://tempuri.org/IDBRest/ListProductsResponse")]
+        System.Threading.Tasks.Task<WCFClientV2.ServiceReference1.Produto[]> ListProductsAsync();
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IDBRestChannel : WCFClientV2.ServiceReference1.IDBRest, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class DBClient : System.ServiceModel.ClientBase<WCFClientV2.ServiceReference1.IDB>, WCFClientV2.ServiceReference1.IDB {
+    public partial class DBRestClient : System.ServiceModel.ClientBase<WCFClientV2.ServiceReference1.IDBRest>, WCFClientV2.ServiceReference1.IDBRest {
         
-        public DBClient() {
+        public DBRestClient() {
         }
         
-        public DBClient(string endpointConfigurationName) : 
+        public DBRestClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public DBClient(string endpointConfigurationName, string remoteAddress) : 
+        public DBRestClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public DBClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public DBRestClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public DBClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public DBRestClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(binding, remoteAddress) {
+        }
+        
+        public int AddRest(string x, string y) {
+            return base.Channel.AddRest(x, y);
+        }
+        
+        public System.Threading.Tasks.Task<int> AddRestAsync(string x, string y) {
+            return base.Channel.AddRestAsync(x, y);
+        }
+        
+        public bool FindProduct(string nome) {
+            return base.Channel.FindProduct(nome);
+        }
+        
+        public System.Threading.Tasks.Task<bool> FindProductAsync(string nome) {
+            return base.Channel.FindProductAsync(nome);
+        }
+        
+        public bool CreateProduct(WCFClientV2.ServiceReference1.Produto p) {
+            return base.Channel.CreateProduct(p);
+        }
+        
+        public System.Threading.Tasks.Task<bool> CreateProductAsync(WCFClientV2.ServiceReference1.Produto p) {
+            return base.Channel.CreateProductAsync(p);
+        }
+        
+        public WCFClientV2.ServiceReference1.Produto[] ListProducts() {
+            return base.Channel.ListProducts();
+        }
+        
+        public System.Threading.Tasks.Task<WCFClientV2.ServiceReference1.Produto[]> ListProductsAsync() {
+            return base.Channel.ListProductsAsync();
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IDBSoap")]
+    public interface IDBSoap {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/FindNif", ReplyAction="http://tempuri.org/IDBSoap/FindNifResponse")]
+        bool FindNif(string nif);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/FindNif", ReplyAction="http://tempuri.org/IDBSoap/FindNifResponse")]
+        System.Threading.Tasks.Task<bool> FindNifAsync(string nif);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetAllPessoas", ReplyAction="http://tempuri.org/IDBSoap/GetAllPessoasResponse")]
+        System.Data.DataSet GetAllPessoas();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetAllPessoas", ReplyAction="http://tempuri.org/IDBSoap/GetAllPessoasResponse")]
+        System.Threading.Tasks.Task<System.Data.DataSet> GetAllPessoasAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RegistInfected", ReplyAction="http://tempuri.org/IDBSoap/RegistInfectedResponse")]
+        void RegistInfected(string nif);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RegistInfected", ReplyAction="http://tempuri.org/IDBSoap/RegistInfectedResponse")]
+        System.Threading.Tasks.Task RegistInfectedAsync(string nif);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RegistIsolated", ReplyAction="http://tempuri.org/IDBSoap/RegistIsolatedResponse")]
+        void RegistIsolated(string contacto);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RegistIsolated", ReplyAction="http://tempuri.org/IDBSoap/RegistIsolatedResponse")]
+        System.Threading.Tasks.Task RegistIsolatedAsync(string contacto);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RelatorioPSP", ReplyAction="http://tempuri.org/IDBSoap/RelatorioPSPResponse")]
+        void RelatorioPSP(string file);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RelatorioPSP", ReplyAction="http://tempuri.org/IDBSoap/RelatorioPSPResponse")]
+        System.Threading.Tasks.Task RelatorioPSPAsync(string file);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RelatorioGNR", ReplyAction="http://tempuri.org/IDBSoap/RelatorioGNRResponse")]
+        void RelatorioGNR(string file);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RelatorioGNR", ReplyAction="http://tempuri.org/IDBSoap/RelatorioGNRResponse")]
+        System.Threading.Tasks.Task RelatorioGNRAsync(string file);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IDBSoapChannel : WCFClientV2.ServiceReference1.IDBSoap, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class DBSoapClient : System.ServiceModel.ClientBase<WCFClientV2.ServiceReference1.IDBSoap>, WCFClientV2.ServiceReference1.IDBSoap {
+        
+        public DBSoapClient() {
+        }
+        
+        public DBSoapClient(string endpointConfigurationName) : 
+                base(endpointConfigurationName) {
+        }
+        
+        public DBSoapClient(string endpointConfigurationName, string remoteAddress) : 
+                base(endpointConfigurationName, remoteAddress) {
+        }
+        
+        public DBSoapClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(endpointConfigurationName, remoteAddress) {
+        }
+        
+        public DBSoapClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         

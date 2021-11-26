@@ -2,6 +2,62 @@
 <wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DB" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/" />
+      <xs:element name="AddRest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="x" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="y" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddRestResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="AddRestResult" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindProduct">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="nome" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindProductResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="FindProductResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateProduct">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="p" nillable="true" type="q1:Produto" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateProductResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="CreateProductResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ListProducts">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ListProductsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="ListProductsResult" nillable="true" type="q2:ArrayOfProduto" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="FindNif">
         <xs:complexType>
           <xs:sequence>
@@ -130,6 +186,21 @@
       <xs:attribute name="Id" type="xs:ID" />
       <xs:attribute name="Ref" type="xs:IDREF" />
     </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="Produto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Nome" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Preco" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="Produto" nillable="true" type="tns:Produto" />
+      <xs:complexType name="ArrayOfProduto">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Produto" nillable="true" type="tns:Produto" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfProduto" nillable="true" type="tns:ArrayOfProduto" />
+    </xs:schema>
     <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="DataSet" nillable="true">
         <xs:complexType>
@@ -146,72 +217,114 @@
       </xs:element>
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="IDB_FindNif_InputMessage">
+  <wsdl:message name="IDBRest_AddRest_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddRest" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_AddRest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddRestResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_FindProduct_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindProduct" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_FindProduct_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_CreateProduct_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProduct" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_CreateProduct_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_ListProducts_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListProducts" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_ListProducts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListProductsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_FindNif_InputMessage">
     <wsdl:part name="parameters" element="tns:FindNif" />
   </wsdl:message>
-  <wsdl:message name="IDB_FindNif_OutputMessage">
+  <wsdl:message name="IDBSoap_FindNif_OutputMessage">
     <wsdl:part name="parameters" element="tns:FindNifResponse" />
   </wsdl:message>
-  <wsdl:message name="IDB_GetAllPessoas_InputMessage">
+  <wsdl:message name="IDBSoap_GetAllPessoas_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllPessoas" />
   </wsdl:message>
-  <wsdl:message name="IDB_GetAllPessoas_OutputMessage">
+  <wsdl:message name="IDBSoap_GetAllPessoas_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllPessoasResponse" />
   </wsdl:message>
-  <wsdl:message name="IDB_RegistInfected_InputMessage">
+  <wsdl:message name="IDBSoap_RegistInfected_InputMessage">
     <wsdl:part name="parameters" element="tns:RegistInfected" />
   </wsdl:message>
-  <wsdl:message name="IDB_RegistInfected_OutputMessage">
+  <wsdl:message name="IDBSoap_RegistInfected_OutputMessage">
     <wsdl:part name="parameters" element="tns:RegistInfectedResponse" />
   </wsdl:message>
-  <wsdl:message name="IDB_RegistIsolated_InputMessage">
+  <wsdl:message name="IDBSoap_RegistIsolated_InputMessage">
     <wsdl:part name="parameters" element="tns:RegistIsolated" />
   </wsdl:message>
-  <wsdl:message name="IDB_RegistIsolated_OutputMessage">
+  <wsdl:message name="IDBSoap_RegistIsolated_OutputMessage">
     <wsdl:part name="parameters" element="tns:RegistIsolatedResponse" />
   </wsdl:message>
-  <wsdl:message name="IDB_RelatorioPSP_InputMessage">
+  <wsdl:message name="IDBSoap_RelatorioPSP_InputMessage">
     <wsdl:part name="parameters" element="tns:RelatorioPSP" />
   </wsdl:message>
-  <wsdl:message name="IDB_RelatorioPSP_OutputMessage">
+  <wsdl:message name="IDBSoap_RelatorioPSP_OutputMessage">
     <wsdl:part name="parameters" element="tns:RelatorioPSPResponse" />
   </wsdl:message>
-  <wsdl:message name="IDB_RelatorioGNR_InputMessage">
+  <wsdl:message name="IDBSoap_RelatorioGNR_InputMessage">
     <wsdl:part name="parameters" element="tns:RelatorioGNR" />
   </wsdl:message>
-  <wsdl:message name="IDB_RelatorioGNR_OutputMessage">
+  <wsdl:message name="IDBSoap_RelatorioGNR_OutputMessage">
     <wsdl:part name="parameters" element="tns:RelatorioGNRResponse" />
   </wsdl:message>
-  <wsdl:portType name="IDB">
-    <wsdl:operation name="FindNif">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDB/FindNif" message="tns:IDB_FindNif_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IDB/FindNifResponse" message="tns:IDB_FindNif_OutputMessage" />
+  <wsdl:portType name="IDBRest">
+    <wsdl:operation name="AddRest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/AddRest" message="tns:IDBRest_AddRest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/AddRestResponse" message="tns:IDBRest_AddRest_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllPessoas">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDB/GetAllPessoas" message="tns:IDB_GetAllPessoas_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IDB/GetAllPessoasResponse" message="tns:IDB_GetAllPessoas_OutputMessage" />
+    <wsdl:operation name="FindProduct">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/FindProduct" message="tns:IDBRest_FindProduct_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/FindProductResponse" message="tns:IDBRest_FindProduct_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="RegistInfected">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDB/RegistInfected" message="tns:IDB_RegistInfected_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IDB/RegistInfectedResponse" message="tns:IDB_RegistInfected_OutputMessage" />
+    <wsdl:operation name="CreateProduct">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/CreateProduct" message="tns:IDBRest_CreateProduct_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/CreateProductResponse" message="tns:IDBRest_CreateProduct_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="RegistIsolated">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDB/RegistIsolated" message="tns:IDB_RegistIsolated_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IDB/RegistIsolatedResponse" message="tns:IDB_RegistIsolated_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="RelatorioPSP">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDB/RelatorioPSP" message="tns:IDB_RelatorioPSP_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IDB/RelatorioPSPResponse" message="tns:IDB_RelatorioPSP_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="RelatorioGNR">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDB/RelatorioGNR" message="tns:IDB_RelatorioGNR_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IDB/RelatorioGNRResponse" message="tns:IDB_RelatorioGNR_OutputMessage" />
+    <wsdl:operation name="ListProducts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/ListProducts" message="tns:IDBRest_ListProducts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/ListProductsResponse" message="tns:IDBRest_ListProducts_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="BasicHttpBinding_IDB" type="tns:IDB">
+  <wsdl:portType name="IDBSoap">
+    <wsdl:operation name="FindNif">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/FindNif" message="tns:IDBSoap_FindNif_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/FindNifResponse" message="tns:IDBSoap_FindNif_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPessoas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetAllPessoas" message="tns:IDBSoap_GetAllPessoas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetAllPessoasResponse" message="tns:IDBSoap_GetAllPessoas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegistInfected">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RegistInfected" message="tns:IDBSoap_RegistInfected_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RegistInfectedResponse" message="tns:IDBSoap_RegistInfected_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegistIsolated">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RegistIsolated" message="tns:IDBSoap_RegistIsolated_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RegistIsolatedResponse" message="tns:IDBSoap_RegistIsolated_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RelatorioPSP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RelatorioPSP" message="tns:IDBSoap_RelatorioPSP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RelatorioPSPResponse" message="tns:IDBSoap_RelatorioPSP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RelatorioGNR">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RelatorioGNR" message="tns:IDBSoap_RelatorioGNR_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RelatorioGNRResponse" message="tns:IDBSoap_RelatorioGNR_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SOAPEndPoint" type="tns:IDBSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="FindNif">
-      <soap:operation soapAction="http://tempuri.org/IDB/FindNif" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/FindNif" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -220,7 +333,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetAllPessoas">
-      <soap:operation soapAction="http://tempuri.org/IDB/GetAllPessoas" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetAllPessoas" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -229,7 +342,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="RegistInfected">
-      <soap:operation soapAction="http://tempuri.org/IDB/RegistInfected" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/RegistInfected" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -238,7 +351,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="RegistIsolated">
-      <soap:operation soapAction="http://tempuri.org/IDB/RegistIsolated" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/RegistIsolated" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -247,7 +360,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="RelatorioPSP">
-      <soap:operation soapAction="http://tempuri.org/IDB/RelatorioPSP" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/RelatorioPSP" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -256,7 +369,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="RelatorioGNR">
-      <soap:operation soapAction="http://tempuri.org/IDB/RelatorioGNR" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/RelatorioGNR" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -266,8 +379,8 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="DB">
-    <wsdl:port name="BasicHttpBinding_IDB" binding="tns:BasicHttpBinding_IDB">
-      <soap:address location="http://localhost:50151/Service.svc" />
+    <wsdl:port name="SOAPEndPoint" binding="tns:SOAPEndPoint">
+      <soap:address location="http://localhost:50151/Service.svc/soap" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

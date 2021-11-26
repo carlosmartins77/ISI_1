@@ -39,6 +39,11 @@ namespace WCFClientV2
                     nPessoas = int.Parse(textBox1.Text);
                     tryAgain = false;
 
+                    if (nPessoas == 0)
+                    {
+                        this.Close();
+                    }
+
                     for (int i = 0; i < nPessoas; i++)
                     {
                         RegistaIsolados form4 = new RegistaIsolados();
