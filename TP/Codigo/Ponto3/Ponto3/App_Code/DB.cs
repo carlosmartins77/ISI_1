@@ -21,10 +21,7 @@ using System.Xml;
 public class DB : IDBSoap, IDBRest
 {
     #region Ponto1
-    public int AddRest(string x, string y)
-    {
-        return (int.Parse(x) + int.Parse(y));
-    }
+
 
     /// <summary>
     /// Função auxiliar responsavel por verificar se um certo produto já existe na BD
@@ -58,7 +55,6 @@ public class DB : IDBSoap, IDBRest
             return false;
         }
     }
-
 
     /// <summary>
     /// Função responsavel por criar um produto.
@@ -94,6 +90,11 @@ public class DB : IDBSoap, IDBRest
         }
     }
 
+    /// <summary>
+    /// Fução responsavel por devolver todos os produtos.
+    /// Devolve uma lista de produtos em XML
+    /// </summary>
+    /// <returns>List de produtos</returns>
     public List<Produto> ListProducts()
     {
         // Cria uma lista para armazenar os Hoteis
@@ -141,27 +142,6 @@ public class DB : IDBSoap, IDBRest
         // Converter numa lista genérica com LINQ
         List<Produto> list = produtos.Cast<Produto>().ToList();
         return list;
-
-    }
-
-
-    public DataSet ListProducts2()
-    {
-        DataSet ds = new DataSet();
-
-        // Ligação à BD
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
-
-        // Query
-        string query = "SELECT Nome,Preco FROM Produto";
-
-        // Executar
-        SqlDataAdapter da = new SqlDataAdapter(query, con);
-
-        //Encher a tabela com os dados obtidos
-        da.Fill(ds, "Produto");
-
-        return (ds);
 
     }
 

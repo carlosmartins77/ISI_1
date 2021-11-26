@@ -41,10 +41,6 @@ public interface IDBSoap
 public interface IDBRest
 {
     [OperationContract]
-    [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "Add/{x}/{y}")]
-    int AddRest(string x, string y);
-
-    [OperationContract]
     [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "FindProduct/{nome}")]
     bool FindProduct(string nome);
 
