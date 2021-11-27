@@ -16,6 +16,7 @@ namespace WCFClientV2
 {
     public partial class EncomendasANDProdutos : Form
     {
+        DBSoapClient client = new DBSoapClient();
         public EncomendasANDProdutos()
         {
             InitializeComponent();
@@ -106,6 +107,20 @@ namespace WCFClientV2
             this.Close();
             FazerEncomenda fazerEncomenda = new FazerEncomenda();
             fazerEncomenda.ShowDialog();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DataSet ds = new DataSet();
+            ds = client.GetEncomendasPendentes(false);
+            dataGridView1.DataSource = ds.Tables[0];
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            DataSet ds = new DataSet();
+            ds = client.GetEncomendasPendentes(true);
+            dataGridView1.DataSource = ds.Tables[0];
         }
     }
 }

@@ -39,7 +39,7 @@ public class DB : IDBSoap, IDBRest
         // Comando com a query
         SqlCommand checkProduct = new SqlCommand("SELECT * FROM Produto WHERE Nome = @nome", con);
 
-        // Parameterização do campo nif
+        // Parameterização do campo nome
         checkProduct.Parameters.Add("@nome", SqlDbType.NVarChar).Value = nome;
 
         // Agora lêmos a tabela e verificamos se ela possui linhas(se tiver o nome existe)
@@ -261,6 +261,36 @@ public class DB : IDBSoap, IDBRest
 
     }
     #endregion
+
+    #region Ponto2
+
+    public DataSet GetEncomendasPendentes(bool estado)
+    {
+        // Criar o dataset para receber os dados
+        DataSet ds = new DataSet();
+
+        // Connection string para establecer ligaçao com a DB
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+
+        string query = @"SELECT Encomenda.Estado, Encomenda.ID_Encomenda, Produto.ID_Produto, Produto.Nome, Produto.Preco, Encomenda.Data 
+                        FROM Encomenda INNER JOIN
+                        EncomendaProduto ON Encomenda.ID_Encomenda = EncomendaProduto.ID_EncomendaFK INNER JOIN
+                        Produto ON EncomendaProduto.ID_ProdutoFK = Produto.ID_Produto
+                        WHERE Encomenda.Estado = @Estado";
+
+        //Executar o comando
+        SqlDataAdapter da = new SqlDataAdapter(query, con);
+
+        da.SelectCommand.Parameters.Add("@Estado", SqlDbType.Bit).Value = estado;
+
+        da.Fill(ds);
+        con.Close();
+
+        return (ds);
+    }
+
+    #endregion
+
 
 
     #region Ponto3

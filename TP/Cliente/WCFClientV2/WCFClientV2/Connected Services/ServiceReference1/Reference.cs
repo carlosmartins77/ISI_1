@@ -366,6 +366,12 @@ namespace WCFClientV2.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RelatorioGNR", ReplyAction="http://tempuri.org/IDBSoap/RelatorioGNRResponse")]
         System.Threading.Tasks.Task RelatorioGNRAsync(string file);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetEncomendasPendentes", ReplyAction="http://tempuri.org/IDBSoap/GetEncomendasPendentesResponse")]
+        System.Data.DataSet GetEncomendasPendentes(bool estado);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetEncomendasPendentes", ReplyAction="http://tempuri.org/IDBSoap/GetEncomendasPendentesResponse")]
+        System.Threading.Tasks.Task<System.Data.DataSet> GetEncomendasPendentesAsync(bool estado);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -441,6 +447,14 @@ namespace WCFClientV2.ServiceReference1 {
         
         public System.Threading.Tasks.Task RelatorioGNRAsync(string file) {
             return base.Channel.RelatorioGNRAsync(file);
+        }
+        
+        public System.Data.DataSet GetEncomendasPendentes(bool estado) {
+            return base.Channel.GetEncomendasPendentes(estado);
+        }
+        
+        public System.Threading.Tasks.Task<System.Data.DataSet> GetEncomendasPendentesAsync(bool estado) {
+            return base.Channel.GetEncomendasPendentesAsync(estado);
         }
     }
 }

@@ -33,6 +33,9 @@ public interface IDBSoap
     [OperationContract]
     void RelatorioGNR(string file);
 
+    [OperationContract]
+    DataSet GetEncomendasPendentes(bool estado);
+
 }
 #endregion
 
@@ -136,7 +139,7 @@ public class Produto
 }
 
 [DataContract]
-public class Encomenda : Produto
+public class Encomenda : Produto 
 {
     #region Atributos 
     Produto produtox;
