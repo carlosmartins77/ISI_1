@@ -105,7 +105,7 @@ namespace WCFClientV2
 
             this.Close();
             FazerEncomenda fazerEncomenda = new FazerEncomenda();
-            fazerEncomenda.Show();
+            fazerEncomenda.ShowDialog();
         }
     }
 }

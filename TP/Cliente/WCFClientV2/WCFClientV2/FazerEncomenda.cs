@@ -34,25 +34,37 @@ namespace WCFClientV2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Encomenda encomenda = new Encomenda()
+            try
             {
-                IdProduto = int.Parse(textBoxProductID.Text),
-                Quantidade = int.Parse(textBoxQuantity.Text)
-            };
+                Encomenda encomenda = new Encomenda()
+                {
+                    IdProduto = int.Parse(textBoxProductID.Text),
+                    Quantidade = int.Parse(textBoxQuantity.Text)
+                };
 
-            // Serializa o Produto
-            DataContractJsonSerializer objseria = new DataContractJsonSerializer(typeof(Encomenda));
-            // Cria uma instancia (1) para guardar o produto(2)
-            MemoryStream mem = new MemoryStream();
-            objseria.WriteObject(mem, encomenda);
+                // Serializa o Produto
+                DataContractJsonSerializer objseria = new DataContractJsonSerializer(typeof(Encomenda));
+                // Cria uma instancia (1) para guardar o produto(2)
+                MemoryStream mem = new MemoryStream();
+                objseria.WriteObject(mem, encomenda);
 
-            //Vai buscar o conteudo na MemoryStream e guarda-o na variavel data com encoding UTF8
-            string data = Encoding.UTF8.GetString(mem.ToArray(), 0, (int)mem.Length);
-            WebClient webClient = new WebClient();
-            webClient.Headers["Content-type"] = "application/json";
-            webClient.Encoding = Encoding.UTF8;
+                //Vai buscar o conteudo na MemoryStream e guarda-o na variavel data com encoding UTF8
+                string data = Encoding.UTF8.GetString(mem.ToArray(), 0, (int)mem.Length);
+                WebClient webClient = new WebClient();
+                webClient.Headers["Content-type"] = "application/json";
+                webClient.Encoding = Encoding.UTF8;
 
-            webClient.UploadString("http://localhost:50151/Service.svc/rest/AddProductToOrder", "POST", data);
+                webClient.UploadString("http://localhost:50151/Service.svc/rest/AddProductToOrder", "POST", data);
+            }
+            catch (ArgumentNullException x)
+            {
+                MessageBox.Show("Valor invalido" + x.Message);
+                
+            }
+            catch(Exception x)
+            {
+                MessageBox.Show("Erro" + x.Message);
+            }
         }
     }
 }
