@@ -17,16 +17,26 @@ namespace WCFClientV2.ServiceReference1 {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Produto", Namespace="http://schemas.datacontract.org/2004/07/")]
     [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(WCFClientV2.ServiceReference1.Encomenda))]
     public partial class Produto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdProdutoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NomeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private double PrecoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SkuField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int StockField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -35,6 +45,19 @@ namespace WCFClientV2.ServiceReference1 {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int IdProduto {
+            get {
+                return this.IdProdutoField;
+            }
+            set {
+                if ((this.IdProdutoField.Equals(value) != true)) {
+                    this.IdProdutoField = value;
+                    this.RaisePropertyChanged("IdProduto");
+                }
             }
         }
         
@@ -64,6 +87,32 @@ namespace WCFClientV2.ServiceReference1 {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Sku {
+            get {
+                return this.SkuField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SkuField, value) != true)) {
+                    this.SkuField = value;
+                    this.RaisePropertyChanged("Sku");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Stock {
+            get {
+                return this.StockField;
+            }
+            set {
+                if ((this.StockField.Equals(value) != true)) {
+                    this.StockField = value;
+                    this.RaisePropertyChanged("Stock");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -74,15 +123,96 @@ namespace WCFClientV2.ServiceReference1 {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Encomenda", Namespace="http://schemas.datacontract.org/2004/07/")]
+    [System.SerializableAttribute()]
+    public partial class Encomenda : WCFClientV2.ServiceReference1.Produto {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool EstadoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdEquipaField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private WCFClientV2.ServiceReference1.Produto ProdutoXField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int QuantidadeField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Data {
+            get {
+                return this.DataField;
+            }
+            set {
+                if ((this.DataField.Equals(value) != true)) {
+                    this.DataField = value;
+                    this.RaisePropertyChanged("Data");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Estado {
+            get {
+                return this.EstadoField;
+            }
+            set {
+                if ((this.EstadoField.Equals(value) != true)) {
+                    this.EstadoField = value;
+                    this.RaisePropertyChanged("Estado");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int IdEquipa {
+            get {
+                return this.IdEquipaField;
+            }
+            set {
+                if ((this.IdEquipaField.Equals(value) != true)) {
+                    this.IdEquipaField = value;
+                    this.RaisePropertyChanged("IdEquipa");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public WCFClientV2.ServiceReference1.Produto ProdutoX {
+            get {
+                return this.ProdutoXField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ProdutoXField, value) != true)) {
+                    this.ProdutoXField = value;
+                    this.RaisePropertyChanged("ProdutoX");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Quantidade {
+            get {
+                return this.QuantidadeField;
+            }
+            set {
+                if ((this.QuantidadeField.Equals(value) != true)) {
+                    this.QuantidadeField = value;
+                    this.RaisePropertyChanged("Quantidade");
+                }
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IDBRest")]
     public interface IDBRest {
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/AddRest", ReplyAction="http://tempuri.org/IDBRest/AddRestResponse")]
-        int AddRest(string x, string y);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/AddRest", ReplyAction="http://tempuri.org/IDBRest/AddRestResponse")]
-        System.Threading.Tasks.Task<int> AddRestAsync(string x, string y);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/FindProduct", ReplyAction="http://tempuri.org/IDBRest/FindProductResponse")]
         bool FindProduct(string nome);
@@ -101,6 +231,24 @@ namespace WCFClientV2.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/ListProducts", ReplyAction="http://tempuri.org/IDBRest/ListProductsResponse")]
         System.Threading.Tasks.Task<WCFClientV2.ServiceReference1.Produto[]> ListProductsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/DeleteProduct", ReplyAction="http://tempuri.org/IDBRest/DeleteProductResponse")]
+        string DeleteProduct(string sku);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/DeleteProduct", ReplyAction="http://tempuri.org/IDBRest/DeleteProductResponse")]
+        System.Threading.Tasks.Task<string> DeleteProductAsync(string sku);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/MakeOrder", ReplyAction="http://tempuri.org/IDBRest/MakeOrderResponse")]
+        bool MakeOrder(WCFClientV2.ServiceReference1.Encomenda e);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/MakeOrder", ReplyAction="http://tempuri.org/IDBRest/MakeOrderResponse")]
+        System.Threading.Tasks.Task<bool> MakeOrderAsync(WCFClientV2.ServiceReference1.Encomenda e);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/AddProductToOrder", ReplyAction="http://tempuri.org/IDBRest/AddProductToOrderResponse")]
+        bool AddProductToOrder(WCFClientV2.ServiceReference1.Encomenda e);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBRest/AddProductToOrder", ReplyAction="http://tempuri.org/IDBRest/AddProductToOrderResponse")]
+        System.Threading.Tasks.Task<bool> AddProductToOrderAsync(WCFClientV2.ServiceReference1.Encomenda e);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -130,14 +278,6 @@ namespace WCFClientV2.ServiceReference1 {
                 base(binding, remoteAddress) {
         }
         
-        public int AddRest(string x, string y) {
-            return base.Channel.AddRest(x, y);
-        }
-        
-        public System.Threading.Tasks.Task<int> AddRestAsync(string x, string y) {
-            return base.Channel.AddRestAsync(x, y);
-        }
-        
         public bool FindProduct(string nome) {
             return base.Channel.FindProduct(nome);
         }
@@ -160,6 +300,30 @@ namespace WCFClientV2.ServiceReference1 {
         
         public System.Threading.Tasks.Task<WCFClientV2.ServiceReference1.Produto[]> ListProductsAsync() {
             return base.Channel.ListProductsAsync();
+        }
+        
+        public string DeleteProduct(string sku) {
+            return base.Channel.DeleteProduct(sku);
+        }
+        
+        public System.Threading.Tasks.Task<string> DeleteProductAsync(string sku) {
+            return base.Channel.DeleteProductAsync(sku);
+        }
+        
+        public bool MakeOrder(WCFClientV2.ServiceReference1.Encomenda e) {
+            return base.Channel.MakeOrder(e);
+        }
+        
+        public System.Threading.Tasks.Task<bool> MakeOrderAsync(WCFClientV2.ServiceReference1.Encomenda e) {
+            return base.Channel.MakeOrderAsync(e);
+        }
+        
+        public bool AddProductToOrder(WCFClientV2.ServiceReference1.Encomenda e) {
+            return base.Channel.AddProductToOrder(e);
+        }
+        
+        public System.Threading.Tasks.Task<bool> AddProductToOrderAsync(WCFClientV2.ServiceReference1.Encomenda e) {
+            return base.Channel.AddProductToOrderAsync(e);
         }
     }
     

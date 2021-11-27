@@ -22,7 +22,6 @@ public class DB : IDBSoap, IDBRest
 {
     #region Ponto1
 
-
     /// <summary>
     /// Função auxiliar responsavel por verificar se um certo produto já existe na BD
     /// </summary>
@@ -70,7 +69,7 @@ public class DB : IDBSoap, IDBRest
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
 
         // Query
-        string query = "INSERT INTO Produto (Nome, Preco) VALUES(@Nome, @Preco)";
+        string query = "INSERT INTO Produto (Nome, Preco, Sku, Quantidade) VALUES(@Nome, @Preco, @Sku, @Quantidade)";
 
         // Executar
         SqlDataAdapter da = new SqlDataAdapter(query, con);
@@ -78,6 +77,9 @@ public class DB : IDBSoap, IDBRest
         // Parameterização 
         da.SelectCommand.Parameters.Add("@Nome", SqlDbType.NVarChar).Value = p.Nome;
         da.SelectCommand.Parameters.Add("@Preco", SqlDbType.Float).Value = p.Preco;
+        da.SelectCommand.Parameters.Add("@Sku", SqlDbType.NVarChar).Value = p.Sku;
+        da.SelectCommand.Parameters.Add("@Quantidade", SqlDbType.Int).Value = p.Stock;
+
 
         if (FindProduct(p.Nome) == true)
         {
@@ -97,7 +99,7 @@ public class DB : IDBSoap, IDBRest
     /// <returns>List de produtos</returns>
     public List<Produto> ListProducts()
     {
-        // Cria uma lista para armazenar os Hoteis
+        // Cria uma lista para armazenar os produtos
         ArrayList produtos = new ArrayList();
 
         // Conexao
@@ -106,7 +108,7 @@ public class DB : IDBSoap, IDBRest
         {
             con.Open();
             // Comando com a query
-            SqlCommand getProducts = new SqlCommand("SELECT Nome, Preco FROM Produto", con);
+            SqlCommand getProducts = new SqlCommand("SELECT Id_Produto, Sku, Nome, Preco, Stock FROM Produto", con);
 
             // Agora lêmos a tabela e verificamos se ela possui linhas(se tiver o nome existe)
             SqlDataReader reader = getProducts.ExecuteReader();
@@ -116,12 +118,15 @@ public class DB : IDBSoap, IDBRest
                 // Percorre o DataReader
                 while (reader.Read())
                 {
-                    //Cria um objeto Produto
+                    // Cria um objeto Produto
                     Produto p = new Produto();
 
                     // Instancia os parametros
+                    p.IdProduto = (int)reader["Id_Produto"];
                     p.Nome = (string)reader["Nome"];
+                    p.Sku = (string)reader["Sku"];
                     p.Preco = (double)reader["Preco"];
+                    p.Stock = (int)reader["Stock"];
                     
                     // Insere no arrayList
                     produtos.Add(p);
@@ -145,9 +150,118 @@ public class DB : IDBSoap, IDBRest
 
     }
 
+    /// <summary>
+    /// Fução responsavel por apagar um produto.
+    /// Devolve uma lista de produtos em XML
+    /// </summary>
+    /// <param name="sku"> Código do produto. Procura o SKU na lista e apaga o produto com o respetivo SKU.</param>
+    /// <returns>Uma string com o resultado. "Sucess ou error"</returns>
+    public string DeleteProduct(string sku)
+    {
+        // Ligação
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand();
+            // Criar um comando
+            SqlDataAdapter da = new SqlDataAdapter
+            {
+                DeleteCommand = new SqlCommand("DELETE FROM Produto WHERE Sku = @Sku ", con)
+            };
+
+            //Instanciar parâmetros
+            da.DeleteCommand.Parameters.Add("@sku", SqlDbType.NVarChar).Value = sku;
+
+            con.Open();
+            int result = da.DeleteCommand.ExecuteNonQuery();
+            con.Close();
+
+            if (result == 1)
+            {
+                return "Deleted succesfully";
+            }
+            else
+            {
+                return "Error";
+            }
+           
+        }
+
+
+
+    }
+
+    /// <summary>
+    /// Fução responsavel por criar uma encomenda.
+    /// </summary>
+    /// <param name="e"> Objeto encomenda</param>
+    /// <returns>True se os dados forem inseridos na BD, false se nao</returns>
+    public bool MakeOrder(Encomenda e)
+    {
+        DataSet ds = new DataSet();
+
+        // Ligação à BD
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+
+        // Query para criar um ID_Encomenda na tabela Encomenda
+        string queryCriarEncomenda = "INSERT INTO Encomenda(ID_EquipaFK, Data, Estado)VALUES(@Id_EquipaFK, @Data, 0)";
+
+        // Executar
+        SqlDataAdapter da = new SqlDataAdapter(queryCriarEncomenda, con);
+
+        da.SelectCommand.Parameters.Add("@ID_EquipaFK", SqlDbType.Int).Value = e.IdEquipa;
+        da.SelectCommand.Parameters.Add("@Data", SqlDbType.Date).Value = e.Data;
+
+        // Para este trabalho usei uma tabela intermediara EncomendasProdutos que guarda o IDProduto e o IDEncomenda e a quantidade
+        // Assim conseguimos associar varios produtos a uma encomenda, por exemplo, ID_Encomenda | ID_Produto | Quantidade
+        //                                                                                  1    |      1     |      1
+        //                                                                                  1    |      2     |      1
+        //
+        //Com a query anterior é criada uma instancia de uma encomenda com um certo ID. Agora é preciso associar os produtos ao ID da encomenda
+        // Para tal, precisamos de obter o ID da encomenda. Para obter o ID da encomenda criada, cheguei à conclusao que podia ir buscar o ultimo registo na tabela
+        // Encomenda.  Esquema: https://imgur.com/a/uEtZZEn
+
+        try
+        {
+            da.Fill(ds, "Encomenda"); //Adicionar à tabela
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+    }
+
+    public bool AddProductToOrder(Encomenda e)
+    {
+        DataSet ds = new DataSet();
+
+        // Ligação à BD
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+
+        //Query para adicionar o produto à ultima instancia de encomenda criada.
+        string queryAdicionarProduto = "INSERT INTO EncomendaProduto(ID_ProdutoFK, ID_EncomendaFK, Quantidade) VALUES(@ID_Produto, (SELECT TOP 1 ID_Encomenda FROM Encomenda ORDER BY ID_Encomenda DESC), @Quantidade)";
+
+        // Executar
+        SqlDataAdapter da = new SqlDataAdapter(queryAdicionarProduto, con);
+
+        da.SelectCommand.Parameters.Add("@ID_Produto", SqlDbType.Int).Value = e.IdProduto;
+        da.SelectCommand.Parameters.Add("@Quantidade", SqlDbType.Int).Value = e.Quantidade;
+
+        try
+        {
+            da.Fill(ds, "EncomendaProduto"); //Adicionar à tabela
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+
+    }
     #endregion
 
-    //Criar encomenda
 
     #region Ponto3
 

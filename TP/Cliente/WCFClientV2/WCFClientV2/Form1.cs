@@ -101,41 +101,15 @@ namespace WCFClientV2
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            // URI: http://localhost:50151/Service.svc/rest/CheckProduct/{nome}
-
-            //1º Definir URI
-            StringBuilder uri = new StringBuilder();
-            uri.Append("http://localhost:50151/Service.svc/rest/");
-            uri.Append($"FindProduct/{textBoxProduct.Text}");
-
-            #region Prepara Pedido
-            HttpWebRequest request = WebRequest.Create(uri.ToString()) as HttpWebRequest;
-            #endregion
-
-            #region Faz pedido e analisa resposta
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-            {
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    string message = String.Format("GET falhou. Recebido HTTP {0}", response.StatusCode);
-                    throw new ApplicationException(message);
-                }
-
-                DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(bool));
-                object objResponse = jsonSerializer.ReadObject(response.GetResponseStream());
-                bool jsonResponse = (bool)objResponse;// ou "as Result";
-
-                MessageBox.Show(jsonResponse.ToString());
-            }
-            #endregion
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
             EncomendasANDProdutos encomendasAndProdutos = new EncomendasANDProdutos();
             encomendasAndProdutos.Show();
+        }
+
+        private void textBoxProduct_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

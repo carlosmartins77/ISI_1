@@ -3,21 +3,6 @@
   <wsdl:types>
     <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://schemas.datacontract.org/2004/07/" />
-      <xs:element name="AddRest">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" name="x" nillable="true" type="xs:string" />
-            <xs:element minOccurs="0" name="y" nillable="true" type="xs:string" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="AddRestResponse">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" name="AddRestResult" type="xs:int" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="FindProduct">
         <xs:complexType>
           <xs:sequence>
@@ -55,6 +40,48 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="ListProductsResult" nillable="true" type="q2:ArrayOfProduto" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteProduct">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="sku" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteProductResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="DeleteProductResult" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="MakeOrder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="e" nillable="true" type="q3:Encomenda" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="MakeOrderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="MakeOrderResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddProductToOrder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="e" nillable="true" type="q4:Encomenda" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddProductToOrderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="AddProductToOrderResult" type="xs:boolean" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -189,8 +216,11 @@
     <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:complexType name="Produto">
         <xs:sequence>
+          <xs:element minOccurs="0" name="IdProduto" type="xs:int" />
           <xs:element minOccurs="0" name="Nome" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Preco" type="xs:double" />
+          <xs:element minOccurs="0" name="Sku" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Stock" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
       <xs:element name="Produto" nillable="true" type="tns:Produto" />
@@ -200,6 +230,20 @@
         </xs:sequence>
       </xs:complexType>
       <xs:element name="ArrayOfProduto" nillable="true" type="tns:ArrayOfProduto" />
+      <xs:complexType name="Encomenda">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:Produto">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="Data" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="Estado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="IdEquipa" type="xs:int" />
+              <xs:element minOccurs="0" name="ProdutoX" nillable="true" type="tns:Produto" />
+              <xs:element minOccurs="0" name="Quantidade" type="xs:int" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="Encomenda" nillable="true" type="tns:Encomenda" />
     </xs:schema>
     <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="DataSet" nillable="true">
@@ -217,12 +261,6 @@
       </xs:element>
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="IDBRest_AddRest_InputMessage">
-    <wsdl:part name="parameters" element="tns:AddRest" />
-  </wsdl:message>
-  <wsdl:message name="IDBRest_AddRest_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AddRestResponse" />
-  </wsdl:message>
   <wsdl:message name="IDBRest_FindProduct_InputMessage">
     <wsdl:part name="parameters" element="tns:FindProduct" />
   </wsdl:message>
@@ -240,6 +278,24 @@
   </wsdl:message>
   <wsdl:message name="IDBRest_ListProducts_OutputMessage">
     <wsdl:part name="parameters" element="tns:ListProductsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_DeleteProduct_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProduct" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_DeleteProduct_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_MakeOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:MakeOrder" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_MakeOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MakeOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_AddProductToOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddProductToOrder" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_AddProductToOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddProductToOrderResponse" />
   </wsdl:message>
   <wsdl:message name="IDBSoap_FindNif_InputMessage">
     <wsdl:part name="parameters" element="tns:FindNif" />
@@ -278,10 +334,6 @@
     <wsdl:part name="parameters" element="tns:RelatorioGNRResponse" />
   </wsdl:message>
   <wsdl:portType name="IDBRest">
-    <wsdl:operation name="AddRest">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/AddRest" message="tns:IDBRest_AddRest_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/AddRestResponse" message="tns:IDBRest_AddRest_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="FindProduct">
       <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/FindProduct" message="tns:IDBRest_FindProduct_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/FindProductResponse" message="tns:IDBRest_FindProduct_OutputMessage" />
@@ -293,6 +345,18 @@
     <wsdl:operation name="ListProducts">
       <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/ListProducts" message="tns:IDBRest_ListProducts_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/ListProductsResponse" message="tns:IDBRest_ListProducts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProduct">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/DeleteProduct" message="tns:IDBRest_DeleteProduct_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/DeleteProductResponse" message="tns:IDBRest_DeleteProduct_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MakeOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/MakeOrder" message="tns:IDBRest_MakeOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/MakeOrderResponse" message="tns:IDBRest_MakeOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddProductToOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/AddProductToOrder" message="tns:IDBRest_AddProductToOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/AddProductToOrderResponse" message="tns:IDBRest_AddProductToOrder_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="IDBSoap">

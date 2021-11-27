@@ -34,11 +34,13 @@ namespace WCFClientV2
             this.textBoxPrecoProduto = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.textBoxQuantidade = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(83, 109);
+            this.button1.Location = new System.Drawing.Point(92, 146);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -48,14 +50,14 @@ namespace WCFClientV2
             // 
             // textBoxNomeProduto
             // 
-            this.textBoxNomeProduto.Location = new System.Drawing.Point(74, 27);
+            this.textBoxNomeProduto.Location = new System.Drawing.Point(111, 24);
             this.textBoxNomeProduto.Name = "textBoxNomeProduto";
             this.textBoxNomeProduto.Size = new System.Drawing.Size(100, 22);
             this.textBoxNomeProduto.TabIndex = 1;
             // 
             // textBoxPrecoProduto
             // 
-            this.textBoxPrecoProduto.Location = new System.Drawing.Point(74, 65);
+            this.textBoxPrecoProduto.Location = new System.Drawing.Point(111, 62);
             this.textBoxPrecoProduto.Name = "textBoxPrecoProduto";
             this.textBoxPrecoProduto.Size = new System.Drawing.Size(100, 22);
             this.textBoxPrecoProduto.TabIndex = 2;
@@ -72,17 +74,35 @@ namespace WCFClientV2
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 65);
+            this.label2.Location = new System.Drawing.Point(23, 62);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "Preco";
             // 
+            // textBoxQuantidade
+            // 
+            this.textBoxQuantidade.Location = new System.Drawing.Point(111, 100);
+            this.textBoxQuantidade.Name = "textBoxQuantidade";
+            this.textBoxQuantidade.Size = new System.Drawing.Size(100, 22);
+            this.textBoxQuantidade.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(23, 100);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(82, 17);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Quantidade";
+            // 
             // CriarProduto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(251, 172);
+            this.ClientSize = new System.Drawing.Size(256, 208);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBoxQuantidade);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxPrecoProduto);
@@ -103,5 +123,7 @@ namespace WCFClientV2
         private System.Windows.Forms.TextBox textBoxPrecoProduto;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxQuantidade;
+        private System.Windows.Forms.Label label3;
     }
 }

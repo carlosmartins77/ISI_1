@@ -13,3 +13,4 @@ C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Debug\WC
 C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Debug\WCFClientV2.RegistaIsolados.resources
 C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Debug\WCFClientV2.EncomendasANDProdutos.resources
 C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Debug\WCFClientV2.CriarProduto.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Debug\WCFClientV2.FazerEncomenda.resources
