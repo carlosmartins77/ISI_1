@@ -59,6 +59,12 @@
     <Compile Include="CriarProduto.Designer.cs">
       <DependentUpon>CriarProduto.cs</DependentUpon>
     </Compile>
+    <Compile Include="DadosAtuaisCOVID.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DadosAtuaisCOVID.Designer.cs">
+      <DependentUpon>DadosAtuaisCOVID.cs</DependentUpon>
+    </Compile>
     <Compile Include="EncomendasANDProdutos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,8 +103,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Root.cs" />
     <EmbeddedResource Include="CriarProduto.resx">
       <DependentUpon>CriarProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DadosAtuaisCOVID.resx">
+      <DependentUpon>DadosAtuaisCOVID.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EncomendasANDProdutos.resx">
       <DependentUpon>EncomendasANDProdutos.cs</DependentUpon>

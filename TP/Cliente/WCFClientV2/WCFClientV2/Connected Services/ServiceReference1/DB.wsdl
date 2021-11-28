@@ -171,17 +171,41 @@
           <xs:sequence />
         </xs:complexType>
       </xs:element>
-      <xs:element name="GetEncomendasPendentes">
+      <xs:element name="GetEncomendas">
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" name="estado" type="xs:boolean" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="GetEncomendasPendentesResponse">
+      <xs:element name="GetEncomendasResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="0" name="GetEncomendasPendentesResult" nillable="true">
+            <xs:element minOccurs="0" name="GetEncomendasResult" nillable="true">
+              <xs:complexType>
+                <xs:annotation>
+                  <xs:appinfo>
+                    <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:sequence>
+                  <xs:element ref="xs:schema" />
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMostOrderedProducts">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMostOrderedProductsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="GetMostOrderedProductsResult" nillable="true">
               <xs:complexType>
                 <xs:annotation>
                   <xs:appinfo>
@@ -246,7 +270,6 @@
           <xs:element minOccurs="0" name="Nome" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Preco" type="xs:double" />
           <xs:element minOccurs="0" name="Sku" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Stock" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
       <xs:element name="Produto" nillable="true" type="tns:Produto" />
@@ -359,11 +382,17 @@
   <wsdl:message name="IDBSoap_RelatorioGNR_OutputMessage">
     <wsdl:part name="parameters" element="tns:RelatorioGNRResponse" />
   </wsdl:message>
-  <wsdl:message name="IDBSoap_GetEncomendasPendentes_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetEncomendasPendentes" />
+  <wsdl:message name="IDBSoap_GetEncomendas_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEncomendas" />
   </wsdl:message>
-  <wsdl:message name="IDBSoap_GetEncomendasPendentes_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetEncomendasPendentesResponse" />
+  <wsdl:message name="IDBSoap_GetEncomendas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEncomendasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetMostOrderedProducts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMostOrderedProducts" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetMostOrderedProducts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMostOrderedProductsResponse" />
   </wsdl:message>
   <wsdl:portType name="IDBRest">
     <wsdl:operation name="FindProduct">
@@ -416,9 +445,13 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RelatorioGNR" message="tns:IDBSoap_RelatorioGNR_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RelatorioGNRResponse" message="tns:IDBSoap_RelatorioGNR_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetEncomendasPendentes">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetEncomendasPendentes" message="tns:IDBSoap_GetEncomendasPendentes_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetEncomendasPendentesResponse" message="tns:IDBSoap_GetEncomendasPendentes_OutputMessage" />
+    <wsdl:operation name="GetEncomendas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetEncomendas" message="tns:IDBSoap_GetEncomendas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetEncomendasResponse" message="tns:IDBSoap_GetEncomendas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMostOrderedProducts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetMostOrderedProducts" message="tns:IDBSoap_GetMostOrderedProducts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetMostOrderedProductsResponse" message="tns:IDBSoap_GetMostOrderedProducts_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="SOAPEndPoint" type="tns:IDBSoap">
@@ -477,8 +510,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetEncomendasPendentes">
-      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetEncomendasPendentes" style="document" />
+    <wsdl:operation name="GetEncomendas">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetEncomendas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMostOrderedProducts">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetMostOrderedProducts" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

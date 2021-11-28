@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ServiceModel;
 using System.Text.Json;
 using System.Web.Services;
 using System.Xml;
@@ -69,7 +70,7 @@ public class DB : IDBSoap, IDBRest
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
 
         // Query
-        string query = "INSERT INTO Produto (Nome, Preco, Sku, Quantidade) VALUES(@Nome, @Preco, @Sku, @Quantidade)";
+        string query = "INSERT INTO Produto (Nome, Preco, Sku) VALUES(@Nome, @Preco, @Sku)";
 
         // Executar
         SqlDataAdapter da = new SqlDataAdapter(query, con);
@@ -78,7 +79,6 @@ public class DB : IDBSoap, IDBRest
         da.SelectCommand.Parameters.Add("@Nome", SqlDbType.NVarChar).Value = p.Nome;
         da.SelectCommand.Parameters.Add("@Preco", SqlDbType.Float).Value = p.Preco;
         da.SelectCommand.Parameters.Add("@Sku", SqlDbType.NVarChar).Value = p.Sku;
-        da.SelectCommand.Parameters.Add("@Quantidade", SqlDbType.Int).Value = p.Stock;
 
 
         if (FindProduct(p.Nome) == true)
@@ -108,7 +108,7 @@ public class DB : IDBSoap, IDBRest
         {
             con.Open();
             // Comando com a query
-            SqlCommand getProducts = new SqlCommand("SELECT Id_Produto, Sku, Nome, Preco, Stock FROM Produto", con);
+            SqlCommand getProducts = new SqlCommand("SELECT Id_Produto, Sku, Nome, Preco FROM Produto", con);
 
             // Agora lêmos a tabela e verificamos se ela possui linhas(se tiver o nome existe)
             SqlDataReader reader = getProducts.ExecuteReader();
@@ -126,7 +126,6 @@ public class DB : IDBSoap, IDBRest
                     p.Nome = (string)reader["Nome"];
                     p.Sku = (string)reader["Sku"];
                     p.Preco = (double)reader["Preco"];
-                    p.Stock = (int)reader["Stock"];
                     
                     // Insere no arrayList
                     produtos.Add(p);
@@ -232,6 +231,11 @@ public class DB : IDBSoap, IDBRest
 
     }
 
+    /// <summary>
+    /// Fução responsavel por adicionar produtos a uma encomenda
+    /// </summary>
+    /// <param name="e"> Objeto encomenda</param>
+    /// <returns>True se os dados forem inseridos na BD, false se nao</returns>
     public bool AddProductToOrder(Encomenda e)
     {
         DataSet ds = new DataSet();
@@ -239,12 +243,13 @@ public class DB : IDBSoap, IDBRest
         // Ligação à BD
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
 
-        //Query para adicionar o produto à ultima instancia de encomenda criada.
+        // Query para adicionar o produto à ultima instancia de encomenda criada.
         string queryAdicionarProduto = "INSERT INTO EncomendaProduto(ID_ProdutoFK, ID_EncomendaFK, Quantidade) VALUES(@ID_Produto, (SELECT TOP 1 ID_Encomenda FROM Encomenda ORDER BY ID_Encomenda DESC), @Quantidade)";
 
         // Executar
         SqlDataAdapter da = new SqlDataAdapter(queryAdicionarProduto, con);
 
+        // Parameterização dos campos
         da.SelectCommand.Parameters.Add("@ID_Produto", SqlDbType.Int).Value = e.IdProduto;
         da.SelectCommand.Parameters.Add("@Quantidade", SqlDbType.Int).Value = e.Quantidade;
 
@@ -264,7 +269,12 @@ public class DB : IDBSoap, IDBRest
 
     #region Ponto2
 
-    public DataSet GetEncomendasPendentes(bool estado)
+    /// <summary>
+    /// Fução responsavel por obter encomendas
+    /// </summary>
+    /// <param name="estado"> Se o estado for true Ele devolve encomendas entregues, se não nao entregues</param>
+    /// <returns>True se os dados forem inseridos na BD, false se nao</returns>
+    public DataSet GetEncomendas(bool estado)
     {
         // Criar o dataset para receber os dados
         DataSet ds = new DataSet();
@@ -272,7 +282,8 @@ public class DB : IDBSoap, IDBRest
         // Connection string para establecer ligaçao com a DB
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
 
-        string query = @"SELECT Encomenda.Estado, Encomenda.ID_Encomenda, Produto.ID_Produto, Produto.Nome, Produto.Preco, Encomenda.Data 
+        // Obter todas as encomendas com um certo estado (true-> Entregue /false-> Nao entregue)
+        string query = @"SELECT Encomenda.ID_EquipaFK, Encomenda.Estado, Encomenda.ID_Encomenda, Produto.ID_Produto, Produto.Nome, Produto.Preco, Encomenda.Data 
                         FROM Encomenda INNER JOIN
                         EncomendaProduto ON Encomenda.ID_Encomenda = EncomendaProduto.ID_EncomendaFK INNER JOIN
                         Produto ON EncomendaProduto.ID_ProdutoFK = Produto.ID_Produto
@@ -290,8 +301,6 @@ public class DB : IDBSoap, IDBRest
     }
 
     #endregion
-
-
 
     #region Ponto3
 
@@ -431,74 +440,84 @@ public class DB : IDBSoap, IDBRest
         int infetado;
         int idEquipa;
 
-        //Criar uma nova instancia de um documento XML
-        XmlDocument xmlFile = new XmlDocument();
-        xmlFile.LoadXml(file);
-
-        //Percorrer os nodes do ficheiro XML
-        foreach (XmlNode xmlNode in xmlFile.DocumentElement.ChildNodes) 
+        try
         {
-            //Atribuir a cada variavel o respetivo filho
-            //idVisita = Convert.ToInt32(xmlNode.ChildNodes[0].InnerText);
-            dataVisita = Convert.ToDateTime(xmlNode.ChildNodes[0].InnerText);
-            idPessoa = Convert.ToInt32(xmlNode.ChildNodes[1].InnerText);
-            infetado = Convert.ToSByte(xmlNode.ChildNodes[2].InnerText);
-            idEquipa = Convert.ToInt32(xmlNode.ChildNodes[3].InnerText);
+            //Criar uma nova instancia de um documento XML
+            XmlDocument xmlFile = new XmlDocument();
+            xmlFile.LoadXml(file);
 
-            DataSet ds = new DataSet();
-
-            // Ligação à BD
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
-
-            // Query
-            string query = "INSERT INTO Visita (Data, ID_PessoaFK, Infetado, ID_EquipaFK) VALUES(@dataVisita, @idPessoa, @infetado, @idEquipa)";
-
-            // Executar
-            SqlDataAdapter da = new SqlDataAdapter(query, con);
-
-            // Parameterização 
-            //da.SelectCommand.Parameters.Add("@idVisita", SqlDbType.Int).Value = idVisita;
-            da.SelectCommand.Parameters.Add("@dataVisita", SqlDbType.Date).Value = dataVisita;
-            da.SelectCommand.Parameters.Add("@idPessoa", SqlDbType.Int).Value = idPessoa;
-            da.SelectCommand.Parameters.Add("@infetado", SqlDbType.Bit).Value = infetado;
-            da.SelectCommand.Parameters.Add("@idEquipa", SqlDbType.Int).Value = idEquipa;
-
-            // Se o campo Infetado estiver a 1, temos que fazer o UPDATE da respetiva pessoa na tabela Pessoas
-            if (infetado == 1)
+            //Percorrer os nodes do ficheiro XML
+            foreach (XmlNode xmlNode in xmlFile.DocumentElement.ChildNodes)
             {
-                //SqlCommand cmdUpdate = new SqlCommand();
-                // Criar um update comamand(?)
-                SqlDataAdapter daUpdate = new SqlDataAdapter
+                //Atribuir a cada variavel o respetivo filho
+                //idVisita = Convert.ToInt32(xmlNode.ChildNodes[0].InnerText);
+                dataVisita = Convert.ToDateTime(xmlNode.ChildNodes[0].InnerText);
+                idPessoa = Convert.ToInt32(xmlNode.ChildNodes[1].InnerText);
+                infetado = Convert.ToSByte(xmlNode.ChildNodes[2].InnerText);
+                idEquipa = Convert.ToInt32(xmlNode.ChildNodes[3].InnerText);
+
+                DataSet ds = new DataSet();
+
+                // Ligação à BD
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+
+                // Query
+                string query = "INSERT INTO Visita (Data, ID_PessoaFK, Infetado, ID_EquipaFK) VALUES(@dataVisita, @idPessoa, @infetado, @idEquipa)";
+
+                // Executar
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+
+                // Parameterização 
+                da.SelectCommand.Parameters.Add("@dataVisita", SqlDbType.Date).Value = dataVisita;
+                da.SelectCommand.Parameters.Add("@idPessoa", SqlDbType.Int).Value = idPessoa;
+                da.SelectCommand.Parameters.Add("@infetado", SqlDbType.Bit).Value = infetado;
+                da.SelectCommand.Parameters.Add("@idEquipa", SqlDbType.Int).Value = idEquipa;
+
+                // Se o campo Infetado estiver a 1, temos que fazer o UPDATE da respetiva pessoa na tabela Pessoas
+                if (infetado == 1)
                 {
-                    UpdateCommand = new SqlCommand("UPDATE Pessoa SET Testado = 1, Infetado = 1, Isolamento = 1 WHERE ID_Pessoa = @idPessoa", con)
-                };
+                    //SqlCommand cmdUpdate = new SqlCommand();
+                    // Criar um update comamand(?)
+                    SqlDataAdapter daUpdate = new SqlDataAdapter
+                    {
+                        UpdateCommand = new SqlCommand("UPDATE Pessoa SET Testado = 1, Infetado = 1, Isolamento = 1 WHERE ID_Pessoa = @idPessoa", con)
+                    };
 
-                //Instanciar parâmetros
-                daUpdate.UpdateCommand.Parameters.Add("@idPessoa", SqlDbType.Int).Value = idPessoa;
+                    //Instanciar parâmetros
+                    daUpdate.UpdateCommand.Parameters.Add("@idPessoa", SqlDbType.Int).Value = idPessoa;
 
-                con.Open();
-                daUpdate.UpdateCommand.ExecuteNonQuery();
-                con.Close();
-            }
-            else if (infetado == 0)
-            {
-                //SqlCommand cmdUpdate = new SqlCommand();
-                // Criar um update comamand(?)
-                SqlDataAdapter daUpdate = new SqlDataAdapter
+                    con.Open();
+                    daUpdate.UpdateCommand.ExecuteNonQuery();
+                    con.Close();
+                }
+                else if (infetado == 0)
                 {
-                    UpdateCommand = new SqlCommand("UPDATE Pessoa SET Testado = 1, Infetado = 0, Isolamento = 0 WHERE ID_Pessoa = @idPessoa", con)
-                };
+                    //SqlCommand cmdUpdate = new SqlCommand();
+                    // Criar um update comamand(?)
+                    SqlDataAdapter daUpdate = new SqlDataAdapter
+                    {
+                        UpdateCommand = new SqlCommand("UPDATE Pessoa SET Testado = 1, Infetado = 0, Isolamento = 0 WHERE ID_Pessoa = @idPessoa", con)
+                    };
 
-                //Instanciar parâmetros
-                daUpdate.UpdateCommand.Parameters.Add("@idPessoa", SqlDbType.Int).Value = idPessoa;
+                    //Instanciar parâmetros
+                    daUpdate.UpdateCommand.Parameters.Add("@idPessoa", SqlDbType.Int).Value = idPessoa;
 
-                con.Open();
-                daUpdate.UpdateCommand.ExecuteNonQuery();
-                con.Close();
+                    con.Open();
+                    daUpdate.UpdateCommand.ExecuteNonQuery();
+                    con.Close();
+                }
+
+                // Preencher a tabela Visita
+                da.Fill(ds, "Visita");
             }
-
-            // Preencher a tabela Visita
-            da.Fill(ds, "Visita");
+        }
+        catch (XmlException) 
+        {
+            throw new FaultException("Ficheiro XML inválido", new FaultCode("XmlFileFault"));
+        }
+        catch (Exception x)
+        {
+            throw new FaultException("Erro" + x.Message);
         }
     }
 
@@ -603,6 +622,62 @@ public class DB : IDBSoap, IDBRest
         
     
     }
+    #endregion
+
+    #region Ponto 5
+
+    /// <summary>
+    /// Função responsavel por enviar os 5 produtos mais requisitados.
+    /// </summary
+    /// <returns></returns>
+    public DataSet GetMostOrderedProducts()
+    {
+        // Criar o dataset para receber os dados
+        DataSet ds = new DataSet();
+
+        // Connection string para establecer ligaçao com a DB
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+
+        // Obter todas as encomendas com um certo estado (true-> Entregue /false-> Nao entregue)
+        // Seleciona os 5 primeiros campos(Ordenados por ordem decrescente pq assim da os 5 c mais quantidade)
+        // E utiliza um inner join para apenas bsucar o nome do produto
+        string query = @"SELECT TOP(5) EncomendaProduto.ID_ProdutoFK, Produto.Nome, SUM(EncomendaProduto.Quantidade) As VendasTotais
+                        FROM     EncomendaProduto INNER JOIN Produto ON EncomendaProduto.ID_ProdutoFK = Produto.ID_Produto
+                        GROUP BY ID_ProdutoFK, Produto.Nome
+                        ORDER BY VendasTotais DESC";
+
+        //Executar o comando
+        SqlDataAdapter da = new SqlDataAdapter(query, con);
+
+        da.Fill(ds);
+        con.Close();
+
+        return (ds);
+    }
+
+    public DataSet GetMostExpensiveTeams()
+    {
+        // Criar o dataset para receber os dados
+        DataSet ds = new DataSet();
+
+        // Connection string para establecer ligaçao com a DB
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["tpISIConnectionString"].ConnectionString);
+
+        // Obter todas as encomendas com um certo estado (true-> Entregue /false-> Nao entregue)
+        string query = @"SELECT TOP(5) EncomendaProduto.ID_ProdutoFK, Produto.Nome, SUM(EncomendaProduto.Quantidade) As VendasTotais
+                        FROM     EncomendaProduto INNER JOIN Produto ON EncomendaProduto.ID_ProdutoFK = Produto.ID_Produto
+                        GROUP BY ID_ProdutoFK, Produto.Nome
+                        ORDER BY VendasTotais DESC";
+
+        //Executar o comando
+        SqlDataAdapter da = new SqlDataAdapter(query, con);
+
+        da.Fill(ds);
+        con.Close();
+
+        return (ds);
+    }
+
     #endregion
 
 }

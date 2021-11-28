@@ -6,7 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 
 /// <summary>
-/// Summary description for IDB
+/// Aqui é possivel encontrar a interface dos métodos a implementar e também certas classes utilizadas.
 /// </summary>
 /// 
 /// 
@@ -34,7 +34,10 @@ public interface IDBSoap
     void RelatorioGNR(string file);
 
     [OperationContract]
-    DataSet GetEncomendasPendentes(bool estado);
+    DataSet GetEncomendas(bool estado);
+
+    [OperationContract]
+    DataSet GetMostOrderedProducts();
 
 }
 #endregion
@@ -77,7 +80,6 @@ public class Produto
     string nome;
     string sku;
     double preco;
-    int stock;
 
     #endregion
 
@@ -87,13 +89,12 @@ public class Produto
 
     }
 
-    public Produto(int id, string n, string s, double p, int stk)
+    public Produto(int id, string n, string s, double p)
     {
         idproduto = id;
         nome = n;
         sku = s;
         preco = p;
-        stock = stk;
     }
 
     #endregion
@@ -128,12 +129,6 @@ public class Produto
         set { preco = value; }
     }
 
-    [DataMember]
-    public int Stock
-    {
-        get { return stock; }
-        set { stock = value; }
-    }
     #endregion
 
 }
@@ -206,6 +201,7 @@ public class Encomenda : Produto
 
     #endregion
 }
+
 
 
 #endregion

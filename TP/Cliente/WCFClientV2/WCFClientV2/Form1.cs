@@ -2,9 +2,11 @@
 using System.Data;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 using WCFClientV2.ServiceReference1;
 
 namespace WCFClientV2
@@ -41,29 +43,40 @@ namespace WCFClientV2
             var fileContent = string.Empty;
             var filePath = string.Empty;
 
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            try
             {
-                openFileDialog.InitialDirectory = "d:\\temp\\Data";
-                openFileDialog.Filter = "xml files (*.xml)All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
-                    //Get the path of specified file
-                    filePath = openFileDialog.FileName;
+                    openFileDialog.InitialDirectory = "d:\\temp\\Data";
+                    openFileDialog.Filter = "xml files (*.xml)All files (*.*)|*.*";
+                    openFileDialog.FilterIndex = 2;
+                    openFileDialog.RestoreDirectory = true;
 
-                    //Read the contents of the file into a stream
-                    var fileStream = openFileDialog.OpenFile();
-
-                    using (StreamReader reader = new StreamReader(fileStream))
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        fileContent = reader.ReadToEnd();
-                        MessageBox.Show(fileContent);
+                        //Get the path of specified file
+                        filePath = openFileDialog.FileName;
 
+                        //Read the contents of the file into a stream
+                        var fileStream = openFileDialog.OpenFile();
+
+                        using (StreamReader reader = new StreamReader(fileStream))
+                        {
+                            fileContent = reader.ReadToEnd();
+                            MessageBox.Show(fileContent);
+
+                        }
+                        client.RelatorioPSP(fileContent);
                     }
-                    client.RelatorioPSP(fileContent);
                 }
+            }
+            catch (XmlException xmlexception)
+            {
+                labelErro.Text = xmlexception.Message;
+            }
+            catch (Exception exception)
+            {
+                labelErro.Text = exception.Message;
             }
 
         }
@@ -111,5 +124,17 @@ namespace WCFClientV2
         {
 
         }
+
+        private void labelCasos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DadosAtuaisCOVID dadosatuais = new DadosAtuaisCOVID();
+            dadosatuais.Show();
+        }
     }
 }
+

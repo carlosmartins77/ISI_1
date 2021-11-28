@@ -112,14 +112,21 @@ namespace WCFClientV2
         private void button5_Click(object sender, EventArgs e)
         {
             DataSet ds = new DataSet();
-            ds = client.GetEncomendasPendentes(false);
+            ds = client.GetEncomendas(false);
             dataGridView1.DataSource = ds.Tables[0];
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             DataSet ds = new DataSet();
-            ds = client.GetEncomendasPendentes(true);
+            ds = client.GetEncomendas(true);
+            dataGridView1.DataSource = ds.Tables[0];
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            DataSet ds = new DataSet();
+            ds = client.GetMostOrderedProducts();
             dataGridView1.DataSource = ds.Tables[0];
         }
     }

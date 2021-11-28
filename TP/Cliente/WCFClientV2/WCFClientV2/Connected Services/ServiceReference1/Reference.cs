@@ -35,9 +35,6 @@ namespace WCFClientV2.ServiceReference1 {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string SkuField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int StockField;
-        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -96,19 +93,6 @@ namespace WCFClientV2.ServiceReference1 {
                 if ((object.ReferenceEquals(this.SkuField, value) != true)) {
                     this.SkuField = value;
                     this.RaisePropertyChanged("Sku");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Stock {
-            get {
-                return this.StockField;
-            }
-            set {
-                if ((this.StockField.Equals(value) != true)) {
-                    this.StockField = value;
-                    this.RaisePropertyChanged("Stock");
                 }
             }
         }
@@ -367,11 +351,17 @@ namespace WCFClientV2.ServiceReference1 {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/RelatorioGNR", ReplyAction="http://tempuri.org/IDBSoap/RelatorioGNRResponse")]
         System.Threading.Tasks.Task RelatorioGNRAsync(string file);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetEncomendasPendentes", ReplyAction="http://tempuri.org/IDBSoap/GetEncomendasPendentesResponse")]
-        System.Data.DataSet GetEncomendasPendentes(bool estado);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetEncomendas", ReplyAction="http://tempuri.org/IDBSoap/GetEncomendasResponse")]
+        System.Data.DataSet GetEncomendas(bool estado);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetEncomendasPendentes", ReplyAction="http://tempuri.org/IDBSoap/GetEncomendasPendentesResponse")]
-        System.Threading.Tasks.Task<System.Data.DataSet> GetEncomendasPendentesAsync(bool estado);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetEncomendas", ReplyAction="http://tempuri.org/IDBSoap/GetEncomendasResponse")]
+        System.Threading.Tasks.Task<System.Data.DataSet> GetEncomendasAsync(bool estado);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetMostOrderedProducts", ReplyAction="http://tempuri.org/IDBSoap/GetMostOrderedProductsResponse")]
+        System.Data.DataSet GetMostOrderedProducts();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDBSoap/GetMostOrderedProducts", ReplyAction="http://tempuri.org/IDBSoap/GetMostOrderedProductsResponse")]
+        System.Threading.Tasks.Task<System.Data.DataSet> GetMostOrderedProductsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -449,12 +439,20 @@ namespace WCFClientV2.ServiceReference1 {
             return base.Channel.RelatorioGNRAsync(file);
         }
         
-        public System.Data.DataSet GetEncomendasPendentes(bool estado) {
-            return base.Channel.GetEncomendasPendentes(estado);
+        public System.Data.DataSet GetEncomendas(bool estado) {
+            return base.Channel.GetEncomendas(estado);
         }
         
-        public System.Threading.Tasks.Task<System.Data.DataSet> GetEncomendasPendentesAsync(bool estado) {
-            return base.Channel.GetEncomendasPendentesAsync(estado);
+        public System.Threading.Tasks.Task<System.Data.DataSet> GetEncomendasAsync(bool estado) {
+            return base.Channel.GetEncomendasAsync(estado);
+        }
+        
+        public System.Data.DataSet GetMostOrderedProducts() {
+            return base.Channel.GetMostOrderedProducts();
+        }
+        
+        public System.Threading.Tasks.Task<System.Data.DataSet> GetMostOrderedProductsAsync() {
+            return base.Channel.GetMostOrderedProductsAsync();
         }
     }
 }

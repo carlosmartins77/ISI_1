@@ -41,27 +41,33 @@ namespace WCFClientV2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Produto produto = new Produto()
+            try
             {
-                Nome = textBoxNomeProduto.Text,
-                Preco = Convert.ToDouble(textBoxPrecoProduto.Text),
-                Stock = Convert.ToInt32(textBoxQuantidade.Text),
-                Sku = SkuGenerator(6)
-            };
+                Produto produto = new Produto()
+                {
+                    Nome = textBoxNomeProduto.Text,
+                    Preco = Convert.ToDouble(textBoxPrecoProduto.Text),
+                    Sku = SkuGenerator(6)
+                };
 
-            // Serializa o Produto
-            DataContractJsonSerializer objseria = new DataContractJsonSerializer(typeof(Produto));
-            // Cria uma instancia (1) para guardar o produto(2)
-            MemoryStream mem = new MemoryStream();
-            objseria.WriteObject(mem, produto);
+                // Serializa o Produto
+                DataContractJsonSerializer objseria = new DataContractJsonSerializer(typeof(Produto));
+                // Cria uma instancia (1) para guardar o produto(2)
+                MemoryStream mem = new MemoryStream();
+                objseria.WriteObject(mem, produto);
 
-            //Vai buscar o conteudo na MemoryStream e guarda-o na variavel data com encoding UTF8
-            string data = Encoding.UTF8.GetString(mem.ToArray(), 0, (int)mem.Length);
-            WebClient webClient = new WebClient();
-            webClient.Headers["Content-type"] = "application/json";
-            webClient.Encoding = Encoding.UTF8;
+                //Vai buscar o conteudo na MemoryStream e guarda-o na variavel data com encoding UTF8
+                string data = Encoding.UTF8.GetString(mem.ToArray(), 0, (int)mem.Length);
+                WebClient webClient = new WebClient();
+                webClient.Headers["Content-type"] = "application/json";
+                webClient.Encoding = Encoding.UTF8;
 
-            webClient.UploadString("http://localhost:50151/Service.svc/rest/CreateProduct", "POST", data);
+                webClient.UploadString("http://localhost:50151/Service.svc/rest/CreateProduct", "POST", data);
+            }
+            catch (FormatException )
+            {
+                labelErro.Text = "Preço invalido";
+            }
 
             //Como mostrar se deu true ou false? Como aparece no postman?
         }

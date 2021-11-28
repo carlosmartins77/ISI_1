@@ -40,6 +40,7 @@ namespace WCFClientV2
             this.textBoxEquipaEncomenda = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,16 +67,16 @@ namespace WCFClientV2
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(185, 31);
+            this.dataGridView1.Location = new System.Drawing.Point(191, 24);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(555, 171);
+            this.dataGridView1.Size = new System.Drawing.Size(833, 260);
             this.dataGridView1.TabIndex = 3;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(185, 304);
+            this.button4.Location = new System.Drawing.Point(202, 312);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(110, 30);
             this.button4.TabIndex = 4;
@@ -86,7 +87,7 @@ namespace WCFClientV2
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 311);
+            this.label1.Location = new System.Drawing.Point(31, 319);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(36, 17);
             this.label1.TabIndex = 5;
@@ -94,7 +95,7 @@ namespace WCFClientV2
             // 
             // textBoxSKU
             // 
-            this.textBoxSKU.Location = new System.Drawing.Point(68, 308);
+            this.textBoxSKU.Location = new System.Drawing.Point(85, 316);
             this.textBoxSKU.Name = "textBoxSKU";
             this.textBoxSKU.Size = new System.Drawing.Size(100, 22);
             this.textBoxSKU.TabIndex = 6;
@@ -111,7 +112,7 @@ namespace WCFClientV2
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(630, 217);
+            this.button2.Location = new System.Drawing.Point(882, 304);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(110, 47);
             this.button2.TabIndex = 1;
@@ -121,7 +122,7 @@ namespace WCFClientV2
             // 
             // textBoxEquipaEncomenda
             // 
-            this.textBoxEquipaEncomenda.Location = new System.Drawing.Point(515, 229);
+            this.textBoxEquipaEncomenda.Location = new System.Drawing.Point(767, 316);
             this.textBoxEquipaEncomenda.Name = "textBoxEquipaEncomenda";
             this.textBoxEquipaEncomenda.Size = new System.Drawing.Size(100, 22);
             this.textBoxEquipaEncomenda.TabIndex = 9;
@@ -129,7 +130,7 @@ namespace WCFClientV2
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(457, 234);
+            this.label2.Location = new System.Drawing.Point(709, 321);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 17);
             this.label2.TabIndex = 8;
@@ -145,11 +146,22 @@ namespace WCFClientV2
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(34, 375);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(84, 76);
+            this.button6.TabIndex = 12;
+            this.button6.Text = "Produtos mais vendidos";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // EncomendasANDProdutos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(769, 358);
+            this.ClientSize = new System.Drawing.Size(1059, 463);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.textBoxEquipaEncomenda);
             this.Controls.Add(this.label2);
@@ -182,5 +194,6 @@ namespace WCFClientV2
         private System.Windows.Forms.TextBox textBoxEquipaEncomenda;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button6;
     }
 }
