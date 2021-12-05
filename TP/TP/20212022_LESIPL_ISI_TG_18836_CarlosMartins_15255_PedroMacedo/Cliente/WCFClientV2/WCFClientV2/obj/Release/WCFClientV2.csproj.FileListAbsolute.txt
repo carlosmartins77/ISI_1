@@ -1,0 +1,16 @@
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\bin\Release\WCFClientV2.exe.config
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\bin\Release\WCFClientV2.exe
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\bin\Release\WCFClientV2.pdb
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.csproj.AssemblyReference.cache
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.CriarProduto.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.EncomendasANDProdutos.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.Form1.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.FazerEncomenda.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.RegistaContagiado.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.InsereNumeroIsolados.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.RegistaIsolados.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.Properties.Resources.resources
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.csproj.GenerateResource.cache
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.csproj.CoreCompileInputs.cache
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.exe
+C:\Users\CARLOS\Desktop\IPCA\ISI\TP\Cliente\WCFClientV2\WCFClientV2\obj\Release\WCFClientV2.pdb

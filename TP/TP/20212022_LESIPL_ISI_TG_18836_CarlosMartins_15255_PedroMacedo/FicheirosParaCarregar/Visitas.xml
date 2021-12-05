@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Visitas>
+    <Visita>
+        <DataVisita>2021-10-18 14:32</DataVisita>
+        <CodPessoa>1</CodPessoa>
+        <Infetado>1</Infetado>
+        <CodEquipa>1</CodEquipa>
+    </Visita>
+    <Visita>
+        <DataVisita>2021-11-01 15:37</DataVisita>
+        <CodPessoa>2</CodPessoa>
+        <Infetado>0</Infetado>
+        <CodEquipa>1</CodEquipa>
+    </Visita>
+</Visitas>

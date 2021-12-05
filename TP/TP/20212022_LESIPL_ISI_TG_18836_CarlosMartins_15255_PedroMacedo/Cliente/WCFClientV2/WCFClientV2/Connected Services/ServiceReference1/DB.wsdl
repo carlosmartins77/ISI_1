@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DB" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/" />
+      <xs:element name="FindProduct">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="nome" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindProductResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="FindProductResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateProduct">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="p" nillable="true" type="q1:Produto" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateProductResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="CreateProductResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ListProducts">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ListProductsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="ListProductsResult" nillable="true" type="q2:ArrayOfProduto" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteProduct">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="sku" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteProductResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="DeleteProductResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="MakeOrder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="e" nillable="true" type="q3:Encomenda" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="MakeOrderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="MakeOrderResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddProductToOrder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="e" nillable="true" type="q4:Encomenda" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddProductToOrderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="AddProductToOrderResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindNif">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="nif" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindNifResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="FindNifResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllPessoas">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllPessoasResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="GetAllPessoasResult" nillable="true">
+              <xs:complexType>
+                <xs:annotation>
+                  <xs:appinfo>
+                    <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:sequence>
+                  <xs:element ref="xs:schema" />
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RegistInfected">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="nif" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RegistInfectedResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RegistIsolated">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="contacto" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RegistIsolatedResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RelatorioPSP">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="file" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RelatorioPSPResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RelatorioGNR">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="file" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RelatorioGNRResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetEncomendas">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="estado" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetEncomendasResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="GetEncomendasResult" nillable="true">
+              <xs:complexType>
+                <xs:annotation>
+                  <xs:appinfo>
+                    <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:sequence>
+                  <xs:element ref="xs:schema" />
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMostOrderedProducts">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMostOrderedProductsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="GetMostOrderedProductsResult" nillable="true">
+              <xs:complexType>
+                <xs:annotation>
+                  <xs:appinfo>
+                    <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:sequence>
+                  <xs:element ref="xs:schema" />
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetTestados">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetTestadosResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="GetTestadosResult" nillable="true">
+              <xs:complexType>
+                <xs:annotation>
+                  <xs:appinfo>
+                    <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:sequence>
+                  <xs:element ref="xs:schema" />
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetInfetados">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetInfetadosResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="GetInfetadosResult" nillable="true">
+              <xs:complexType>
+                <xs:annotation>
+                  <xs:appinfo>
+                    <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:sequence>
+                  <xs:element ref="xs:schema" />
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName" />
+      <xs:attribute name="Id" type="xs:ID" />
+      <xs:attribute name="Ref" type="xs:IDREF" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="Produto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="IdProduto" type="xs:int" />
+          <xs:element minOccurs="0" name="Nome" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Preco" type="xs:double" />
+          <xs:element minOccurs="0" name="Sku" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="Produto" nillable="true" type="tns:Produto" />
+      <xs:complexType name="ArrayOfProduto">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Produto" nillable="true" type="tns:Produto" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfProduto" nillable="true" type="tns:ArrayOfProduto" />
+      <xs:complexType name="Encomenda">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:Produto">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="Data" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="Estado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="IdEquipa" type="xs:int" />
+              <xs:element minOccurs="0" name="ProdutoX" nillable="true" type="tns:Produto" />
+              <xs:element minOccurs="0" name="Quantidade" type="xs:int" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="Encomenda" nillable="true" type="tns:Encomenda" />
+    </xs:schema>
+    <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="DataSet" nillable="true">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:appinfo>
+              <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+            </xs:appinfo>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IDBRest_FindProduct_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindProduct" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_FindProduct_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_CreateProduct_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProduct" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_CreateProduct_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_ListProducts_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListProducts" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_ListProducts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListProductsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_DeleteProduct_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProduct" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_DeleteProduct_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_MakeOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:MakeOrder" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_MakeOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MakeOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_AddProductToOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddProductToOrder" />
+  </wsdl:message>
+  <wsdl:message name="IDBRest_AddProductToOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddProductToOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_FindNif_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindNif" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_FindNif_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindNifResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetAllPessoas_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllPessoas" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetAllPessoas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllPessoasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_RegistInfected_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegistInfected" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_RegistInfected_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegistInfectedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_RegistIsolated_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegistIsolated" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_RegistIsolated_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegistIsolatedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_RelatorioPSP_InputMessage">
+    <wsdl:part name="parameters" element="tns:RelatorioPSP" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_RelatorioPSP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RelatorioPSPResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_RelatorioGNR_InputMessage">
+    <wsdl:part name="parameters" element="tns:RelatorioGNR" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_RelatorioGNR_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RelatorioGNRResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetEncomendas_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEncomendas" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetEncomendas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEncomendasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetMostOrderedProducts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMostOrderedProducts" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetMostOrderedProducts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMostOrderedProductsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetTestados_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTestados" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetTestados_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTestadosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetInfetados_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInfetados" />
+  </wsdl:message>
+  <wsdl:message name="IDBSoap_GetInfetados_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInfetadosResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IDBRest">
+    <wsdl:operation name="FindProduct">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/FindProduct" message="tns:IDBRest_FindProduct_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/FindProductResponse" message="tns:IDBRest_FindProduct_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateProduct">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/CreateProduct" message="tns:IDBRest_CreateProduct_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/CreateProductResponse" message="tns:IDBRest_CreateProduct_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListProducts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/ListProducts" message="tns:IDBRest_ListProducts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/ListProductsResponse" message="tns:IDBRest_ListProducts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProduct">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/DeleteProduct" message="tns:IDBRest_DeleteProduct_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/DeleteProductResponse" message="tns:IDBRest_DeleteProduct_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MakeOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/MakeOrder" message="tns:IDBRest_MakeOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/MakeOrderResponse" message="tns:IDBRest_MakeOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddProductToOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBRest/AddProductToOrder" message="tns:IDBRest_AddProductToOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBRest/AddProductToOrderResponse" message="tns:IDBRest_AddProductToOrder_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IDBSoap">
+    <wsdl:operation name="FindNif">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/FindNif" message="tns:IDBSoap_FindNif_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/FindNifResponse" message="tns:IDBSoap_FindNif_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPessoas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetAllPessoas" message="tns:IDBSoap_GetAllPessoas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetAllPessoasResponse" message="tns:IDBSoap_GetAllPessoas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegistInfected">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RegistInfected" message="tns:IDBSoap_RegistInfected_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RegistInfectedResponse" message="tns:IDBSoap_RegistInfected_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegistIsolated">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RegistIsolated" message="tns:IDBSoap_RegistIsolated_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RegistIsolatedResponse" message="tns:IDBSoap_RegistIsolated_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RelatorioPSP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RelatorioPSP" message="tns:IDBSoap_RelatorioPSP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RelatorioPSPResponse" message="tns:IDBSoap_RelatorioPSP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RelatorioGNR">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/RelatorioGNR" message="tns:IDBSoap_RelatorioGNR_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/RelatorioGNRResponse" message="tns:IDBSoap_RelatorioGNR_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEncomendas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetEncomendas" message="tns:IDBSoap_GetEncomendas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetEncomendasResponse" message="tns:IDBSoap_GetEncomendas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMostOrderedProducts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetMostOrderedProducts" message="tns:IDBSoap_GetMostOrderedProducts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetMostOrderedProductsResponse" message="tns:IDBSoap_GetMostOrderedProducts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTestados">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetTestados" message="tns:IDBSoap_GetTestados_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetTestadosResponse" message="tns:IDBSoap_GetTestados_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInfetados">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDBSoap/GetInfetados" message="tns:IDBSoap_GetInfetados_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDBSoap/GetInfetadosResponse" message="tns:IDBSoap_GetInfetados_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SOAPEndPoint" type="tns:IDBSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FindNif">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/FindNif" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPessoas">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetAllPessoas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegistInfected">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/RegistInfected" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegistIsolated">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/RegistIsolated" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RelatorioPSP">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/RelatorioPSP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RelatorioGNR">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/RelatorioGNR" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEncomendas">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetEncomendas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMostOrderedProducts">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetMostOrderedProducts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestados">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetTestados" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfetados">
+      <soap:operation soapAction="http://tempuri.org/IDBSoap/GetInfetados" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DB">
+    <wsdl:port name="SOAPEndPoint" binding="tns:SOAPEndPoint">
+      <soap:address location="http://localhost:50151/Service.svc/soap" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
